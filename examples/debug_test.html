@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Test de Archivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        .upload-area.dragover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #console {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug - Test de Selección de Archivos</h1>
+
+    <div class="test-section">
+        <h2>1. Test Básico de Archivos</h2>
+        <div class="upload-area" id="uploadArea" onclick="selectFile()">
+            <p id="uploadText">Haz clic para seleccionar una imagen</p>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+        </div>
+        <input type="text" id="nameInput" placeholder="Nombre de la persona">
+        <button class="test-button" onclick="testUpload()">Subir Imagen</button>
+        <div id="upload-result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test de Conexión al Servidor</h2>
+        <button class="test-button" onclick="testConnection()">Probar Conexión</button>
+        <div id="connection-result" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Consola de Debug</h2>
+        <div id="console"></div>
+        <button class="test-button" onclick="clearConsole()">Limpiar Consola</button>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:5005';
+
+        // Función para log en consola personalizada
+        function log(message) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.textContent += `[${timestamp}] ${message}\n`;
+            console.scrollTop = console.scrollHeight;
+            console.log(message); // También en consola del navegador
+        }
+
+        function clearConsole() {
+            document.getElementById('console').textContent = '';
+        }
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = `result ${type}`;
+            element.textContent = message;
+            log(`Resultado ${type}: ${message}`);
+        }
+
+        // Funciones para manejo de archivos
+        function selectFile() {
+            log('Intentando abrir selector de archivos...');
+            try {
+                const fileInput = document.getElementById('fileInput');
+                fileInput.click();
+                log('Selector de archivos activado');
+            } catch (error) {
+                log('Error al abrir selector: ' + error.message);
+                showResult('upload-result', 'Error al abrir selector de archivos: ' + error.message, 'error');
+            }
+        }
+
+        function handleFileSelect(event) {
+            log('Evento onchange disparado');
+            try {
+                const file = event.target.files[0];
+                const uploadText = document.getElementById('uploadText');
+                const uploadArea = document.getElementById('uploadArea');
+
+                if (file) {
+                    log(`Archivo seleccionado: ${file.name} (${file.size} bytes, ${file.type})`);
+                    uploadText.textContent = `Archivo seleccionado: ${file.name}`;
+                    uploadArea.style.borderColor = '#28a745';
+                    uploadArea.style.backgroundColor = '#d4edda';
+                } else {
+                    log('No se seleccionó archivo');
+                    uploadText.textContent = 'Haz clic para seleccionar una imagen';
+                    uploadArea.style.borderColor = '#ccc';
+                    uploadArea.style.backgroundColor = 'transparent';
+                }
+            } catch (error) {
+                log('Error en handleFileSelect: ' + error.message);
+                showResult('upload-result', 'Error procesando archivo: ' + error.message, 'error');
+            }
+        }
+
+        async function testConnection() {
+            log('Probando conexión al servidor...');
+            try {
+                const response = await fetch(`${API_BASE}/`);
+                if (response.ok) {
+                    showResult('connection-result', '✅ Conexión exitosa', 'success');
+                    log('Conexión exitosa al servidor');
+                } else {
+                    showResult('connection-result', '❌ Error de conexión: ' + response.status, 'error');
+                    log(`Error de conexión: ${response.status}`);
+                }
+            } catch (error) {
+                showResult('connection-result', '❌ Error: ' + error.message, 'error');
+                log('Error de conexión: ' + error.message);
+            }
+        }
+
+        async function testUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const nameInput = document.getElementById('nameInput');
+
+            log('Iniciando test de upload...');
+            log(`Archivo seleccionado: ${fileInput.files.length > 0 ? fileInput.files[0].name : 'ninguno'}`);
+            log(`Nombre ingresado: ${nameInput.value.trim()}`);
+
+            if (!fileInput.files[0] || !nameInput.value.trim()) {
+                showResult('upload-result', '❌ Por favor selecciona una imagen y ingresa un nombre', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('name', nameInput.value.trim());
+
+            try {
+                log('Enviando datos al servidor...');
+                const response = await fetch(`${API_BASE}/api/upload_reference`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                log(`Respuesta del servidor: ${response.status}`);
+                const data = await response.json();
+                log(`Datos de respuesta: ${JSON.stringify(data)}`);
+
+                if (data.success) {
+                    showResult('upload-result', '✅ Imagen subida exitosamente: ' + data.message, 'success');
+                    fileInput.value = '';
+                    nameInput.value = '';
+                    document.getElementById('uploadText').textContent = 'Haz clic para seleccionar una imagen';
+                    document.getElementById('uploadArea').style.borderColor = '#ccc';
+                    document.getElementById('uploadArea').style.backgroundColor = 'transparent';
+                } else {
+                    showResult('upload-result', '❌ Error: ' + data.error, 'error');
+                }
+            } catch (error) {
+                showResult('upload-result', '❌ Error: ' + error.message, 'error');
+                log('Error en upload: ' + error.message);
+            }
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Página cargada, iniciando tests...');
+            testConnection();
+        });
+
+        // Manejo de errores globales
+        window.addEventListener('error', function(e) {
+            log('Error global: ' + e.message + ' en ' + e.filename + ':' + e.lineno);
+        });
+
+        // Test de drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+            log('Archivo arrastrado sobre el área');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            log('Archivo salió del área');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            log('Archivo soltado en el área');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const fileInput = document.getElementById('fileInput');
+                fileInput.files = files;
+                handleFileSelect({target: fileInput});
+            }
+        });
+    </script>
+</body>
+</html>

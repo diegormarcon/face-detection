@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Reconocimiento Facial Inteligente</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/beautiful.css') }}">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="header-brand">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h1>Reconocimiento Facial IA</h1>
+                            <p>Detección inteligente en tiempo real</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <div class="status-dot" id="status-dot"></div>
+                        <span id="status-text">Sistema Activo</span>
+                    </div>
+                    <div class="header-time" id="header-time"></div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="reference-count">0</span>
+                        <span class="stat-label">Referencias</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="detected-count">0</span>
+                        <span class="stat-label">Detectadas</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="fps-count">0</span>
+                        <span class="stat-label">FPS</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Navigation Tabs -->
+            <nav class="tabs-nav">
+                <button class="tab-btn active" data-tab="live">
+                    <div class="tab-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="tab-text">
+                        <span class="tab-title">Detección en Vivo</span>
+                        <span class="tab-subtitle">Cámara en tiempo real</span>
+                    </div>
+                </button>
+                <button class="tab-btn" data-tab="reference">
+                    <div class="tab-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="tab-text">
+                        <span class="tab-title">Gestión de Referencias</span>
+                        <span class="tab-subtitle">Administrar caras conocidas</span>
+                    </div>
+                </button>
+                <button class="tab-btn" data-tab="analyze">
+                    <div class="tab-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="tab-text">
+                        <span class="tab-title">Análisis de Imagen</span>
+                        <span class="tab-subtitle">Procesar imágenes estáticas</span>
+                    </div>
+                </button>
+            </nav>
+
+            <!-- Live Detection Tab -->
+            <div class="tab-content active" id="live-tab">
+                <div class="video-section">
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <img id="video-stream" src="" alt="Stream de video" style="display: none;">
+                            <div id="video-placeholder" class="video-placeholder">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <h3>Inicia la detección en tiempo real</h3>
+                                <p>El sistema comparará automáticamente con las caras de referencia</p>
+                                <div class="placeholder-features">
+                                    <div class="feature">
+                                        <i class="fas fa-check"></i>
+                                        <span>Detección automática</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-check"></i>
+                                        <span>Comparación inteligente</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-check"></i>
+                                        <span>Identificación en vivo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button id="start-btn" class="btn btn-success btn-large">
+                                <i class="fas fa-play"></i>
+                                <span>Iniciar Detección</span>
+                            </button>
+                            <button id="stop-btn" class="btn btn-danger btn-large" disabled>
+                                <i class="fas fa-stop"></i>
+                                <span>Detener</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reference Management Tab -->
+            <div class="tab-content" id="reference-tab">
+                <div class="reference-section">
+                    <div class="section-header">
+                        <div class="header-info">
+                            <h2>Caras de Referencia</h2>
+                            <p>Administra las caras conocidas para mejorar el reconocimiento</p>
+                        </div>
+                        <div class="header-actions">
+                            <button id="capture-reference-btn" class="btn btn-success btn-large">
+                                <i class="fas fa-camera"></i>
+                                <span>Tomar Foto</span>
+                            </button>
+                            <button id="add-reference-btn" class="btn btn-primary btn-large">
+                                <i class="fas fa-plus"></i>
+                                <span>Subir Imagen</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="reference-grid" id="reference-grid">
+                        <!-- Las caras de referencia se mostrarán aquí -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Analysis Tab -->
+            <div class="tab-content" id="analyze-tab">
+                <div class="analysis-section">
+                    <div class="upload-area" id="analysis-upload-area">
+                        <div class="upload-content">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3>Arrastra y suelta una imagen aquí</h3>
+                            <p>o haz clic para seleccionar archivo</p>
+                            <div class="upload-features">
+                                <div class="feature">
+                                    <i class="fas fa-magic"></i>
+                                    <span>Análisis automático</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-search"></i>
+                                    <span>Comparación inteligente</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Resultados detallados</span>
+                                </div>
+                            </div>
+                            <small>Soporta: JPG, PNG, GIF, BMP</small>
+                        </div>
+                        <input type="file" id="analysis-file-input" accept="image/*" hidden>
+                    </div>
+
+                    <div class="analysis-results" id="analysis-results" style="display: none;">
+                        <div class="results-header">
+                            <div class="header-info">
+                                <h3>Resultados del Análisis</h3>
+                                <p>Análisis detallado de las caras detectadas</p>
+                            </div>
+                            <button id="clear-analysis-btn" class="btn btn-secondary">
+                                <i class="fas fa-trash"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                        <div class="results-content">
+                            <div class="image-container">
+                                <img id="analysis-image" src="" alt="Imagen analizada">
+                                <canvas id="analysis-overlay"></canvas>
+                            </div>
+                            <div class="faces-list" id="analysis-faces-list">
+                                <!-- Los resultados se mostrarán aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Add Reference Modal -->
+        <div id="add-reference-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="header-info">
+                        <h3>Agregar Cara de Referencia</h3>
+                        <p>Sube una imagen con una sola cara para mejorar el reconocimiento</p>
+                    </div>
+                    <button class="close-btn" onclick="closeAddReferenceModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-area" id="reference-upload-area">
+                        <div class="upload-content">
+                            <div class="upload-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <h4>Selecciona una imagen con una sola cara</h4>
+                            <p>La imagen debe contener únicamente la cara de la persona</p>
+                        </div>
+                        <input type="file" id="reference-file-input" accept="image/*" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="reference-name">
+                            <i class="fas fa-user"></i>
+                            Nombre de la persona
+                        </label>
+                        <input type="text" id="reference-name" placeholder="Ej: Juan Pérez" required>
+                    </div>
+                    <div class="form-actions">
+                        <button id="save-reference-btn" class="btn btn-success btn-large" disabled>
+                            <i class="fas fa-save"></i>
+                            <span>Guardar Referencia</span>
+                        </button>
+                        <button onclick="closeAddReferenceModal()" class="btn btn-secondary">
+                            <i class="fas fa-times"></i>
+                            <span>Cancelar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Capture Reference Modal -->
+        <div id="capture-reference-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="header-info">
+                        <h3>Tomar Foto de Referencia</h3>
+                        <p>Captura una foto con la cámara para agregar como referencia</p>
+                    </div>
+                    <button class="close-btn" onclick="closeCaptureReferenceModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="capture-area">
+                        <div class="camera-container">
+                            <img id="capture-stream" src="" alt="Stream de captura" style="display: none;">
+                            <div id="capture-placeholder" class="capture-placeholder">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <h4>Inicia la cámara para tomar la foto</h4>
+                                <p>Posiciona la cara en el centro del marco</p>
+                            </div>
+                        </div>
+                        <div class="capture-controls">
+                            <button id="start-capture-btn" class="btn btn-success">
+                                <i class="fas fa-play"></i>
+                                <span>Iniciar Cámara</span>
+                            </button>
+                            <button id="capture-photo-btn" class="btn btn-primary" disabled>
+                                <i class="fas fa-camera"></i>
+                                <span>Tomar Foto</span>
+                            </button>
+                            <button id="stop-capture-btn" class="btn btn-danger" disabled>
+                                <i class="fas fa-stop"></i>
+                                <span>Detener</span>
+                            </button>
+                        </div>
+                        <div class="captured-photo" id="captured-photo" style="display: none;">
+                            <h4>Foto Capturada:</h4>
+                            <img id="captured-image" src="" alt="Foto capturada">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="capture-name">
+                            <i class="fas fa-user"></i>
+                            Nombre de la persona
+                        </label>
+                        <input type="text" id="capture-name" placeholder="Ej: Juan Pérez" required>
+                    </div>
+                    <div class="form-actions">
+                        <button id="save-capture-btn" class="btn btn-success btn-large" disabled>
+                            <i class="fas fa-save"></i>
+                            <span>Guardar Referencia</span>
+                        </button>
+                        <button id="retake-photo-btn" class="btn btn-warning" style="display: none;">
+                            <i class="fas fa-redo"></i>
+                            <span>Tomar Otra Foto</span>
+                        </button>
+                        <button onclick="closeCaptureReferenceModal()" class="btn btn-secondary">
+                            <i class="fas fa-times"></i>
+                            <span>Cancelar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-globe"></i>
+                        <span>Geo Software</span>
+                    </div>
+                    <p>Soluciones tecnológicas avanzadas</p>
+                </div>
+                <div class="footer-info">
+                    <div class="footer-section">
+                        <h4>Sistema</h4>
+                        <ul>
+                            <li>Reconocimiento Facial IA</li>
+                            <li>Detección en Tiempo Real</li>
+                            <li>Análisis Inteligente</li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Tecnologías</h4>
+                        <ul>
+                            <li>AI Trained</li>
+                            <li>Face Recognition</li>
+                            <li>Python</li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contacto</h4>
+                        <ul>
+                            <li><i class="fas fa-envelope"></i> www.geosoftware.ar</li>
+                            <li><i class="fas fa-phone"></i> +54 (3496) 524233</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Santa Fe, Argentina</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Geo Software. Todos los derechos reservados.</p>
+                </div>
+                <div class="footer-version">
+                    <span>v2.0.1</span>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/beautiful.js') }}"></script>
+</body>
+</html>

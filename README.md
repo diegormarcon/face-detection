@@ -1,61 +1,89 @@
-# Face Recognition
+# 🚀 Sistema de Detección Intuitiva AI (Estilo TRON ARES)
 
-_You can also read a translated version of this file [in Chinese 简体中文版](https://github.com/ageitgey/face_recognition/blob/master/README_Simplified_Chinese.md) or [in Korean 한국어](https://github.com/ageitgey/face_recognition/blob/master/README_Korean.md) or [in Japanese 日本語](https://github.com/m-i-k-i/face_recognition/blob/master/README_Japanese.md)._
+Este repositorio contiene un sistema avanzado de videovigilancia e identificación biométrica que combina **Face Recognition (Dlib)** con **YOLOv8-seg (Segmentación de Instancias)**, envuelto en una interfaz HUD futurista inspirada en la película *TRON: ARES*.
 
-Recognize and manipulate faces from Python or from the command line with
-the world's simplest face recognition library.
+---
 
-Built using [dlib](http://dlib.net/)'s state-of-the-art face recognition
-built with deep learning. The model has an accuracy of 99.38% on the
-[Labeled Faces in the Wild](http://vis-www.cs.umass.edu/lfw/) benchmark.
+## ✨ Características Principales
 
-This also provides a simple `face_recognition` command line tool that lets
-you do face recognition on a folder of images from the command line!
+*   **🎬 Interfaz TRON ARES HUD**: Diseño visual de alta tecnología con efectos de resplandor (glow), tipografía técnica y colores Cyan/Ámbar.
+*   **👤 Reconocimiento Facial Pro**: Identificación de personas en tiempo real con soporte para múltiples encodings por sujeto.
+*   **📑 Biografías Dinámicas**: Muestra información específica (puesto, empresa, localización) al detectar personas registradas (ej: Diego, German).
+*   **🔍 Segmentación de Objetos (YOLOv8)**: Detecta y segmenta más de 80 clases de objetos (personas, vehículos, mochilas, etc.) simultáneamente.
+*   **📹 Soporte Multi-Cámara**: Sistema preparado para manejar múltiples fuentes RTSP (Cámaras Hikvision/Dahua) y cámaras locales por AVFoundation.
+*   **🍎 Optimizado para macOS**: Configuraciones específicas para evitar bloqueos por bibliotecas OpenMP y gestión inteligente de memoria RAM.
 
+---
 
-[![PyPI](https://img.shields.io/pypi/v/face_recognition.svg)](https://pypi.python.org/pypi/face_recognition)
-[![Build Status](https://github.com/ageitgey/face_recognition/workflows/CI/badge.svg?branch=master&event=push)](https://github.com/ageitgey/face_recognition/actions?query=workflow%3ACI)
-[![Documentation Status](https://readthedocs.org/projects/face-recognition/badge/?version=latest)](http://face-recognition.readthedocs.io/en/latest/?badge=latest)
+## 🛠 Instalación (Desde Cero)
 
-## Features
+Para que el proyecto funcione en un equipo nuevo tras el clonado, sigue estos pasos:
 
-#### Find faces in pictures
+### 1. Requisitos del Sistema
+Debes tener instalado **Python 3.9+** y herramientas de compilación para la librería `dlib`:
 
-Find all the faces that appear in a picture:
-
-![](https://cloud.githubusercontent.com/assets/896692/23625227/42c65360-025d-11e7-94ea-b12f28cb34b4.png)
-
-```python
-import face_recognition
-image = face_recognition.load_image_file("your_file.jpg")
-face_locations = face_recognition.face_locations(image)
+```bash
+# En macOS (con Homebrew)
+brew install cmake pkg-config
 ```
 
-#### Find and manipulate facial features in pictures
-
-Get the locations and outlines of each person's eyes, nose, mouth and chin.
-
-![](https://cloud.githubusercontent.com/assets/896692/23625282/7f2d79dc-025d-11e7-8728-d8924596f8fa.png)
-
-```python
-import face_recognition
-image = face_recognition.load_image_file("your_file.jpg")
-face_landmarks_list = face_recognition.face_landmarks(image)
+### 2. Clonar y Configurar Entorno
+```bash
+git clone https://github.com/diegormarcon/face-detection.git
+cd face-detection
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Finding facial features is super useful for lots of important stuff. But you can also use it for really stupid stuff
-like applying [digital make-up](https://github.com/ageitgey/face_recognition/blob/master/examples/digital_makeup.py) (think 'Meitu'):
+### 3. Instalar Dependencias
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-![](https://cloud.githubusercontent.com/assets/896692/23625283/80638760-025d-11e7-80a2-1d2779f7ccab.png)
+---
 
-#### Identify faces in pictures
+## ⚙️ Configuración
 
-Recognize who appears in each photo.
+### Caras de Referencia
+Sube fotos de las personas que quieres reconocer a la carpeta:
+`examples/reference_faces/`
+*El nombre del archivo será el nombre que muestre el sistema (ej: `Diego_M.jpg`).*
 
-![](https://cloud.githubusercontent.com/assets/896692/23625229/45e049b6-025d-11e7-89cc-8a71cf89e713.png)
-
+### Cámaras
+Puedes configurar tus cámaras en `examples/simple_face_recognition_app.py`, modificando la lista `PREDEFINED_CAMERAS`:
 ```python
-import face_recognition
+PREDEFINED_CAMERAS = [
+    {'id': 'hikvision_1', 'name': 'Main Cam', 'url': 'rtsp://user:pass@ip:554/stream', 'type': 'rtsp'},
+    {'id': 'local_0', 'name': 'MacBook Cam', 'url': 0, 'type': 'local'}
+]
+```
+
+---
+
+## 🚀 Ejecución
+
+Para iniciar el servidor principal:
+
+```bash
+cd examples
+../.venv/bin/python simple_face_recognition_app.py
+```
+
+El sistema estará disponible en: **[http://localhost:5005](http://localhost:5005)**
+
+---
+
+## 🧠 Notas Técnicas
+
+*   **Procesamiento**: El sistema utiliza **CPU** para YOLOv8 para garantizar estabilidad absoluta en macOS.
+*   **Memoria**: Implementa `gc.collect()` automático cada 150 frames para evitar fugas de memoria en sesiones largas.
+*   **Locks de Seguridad**: Utiliza `face_lock` y `yolo_lock` para manejar de forma segura la concurrencia de dlib y torch en hilos de Flask.
+*   **Zoom-on-Person**: Si una persona está lejos, el sistema extrae automáticamente un recorte de alta resolución de la cabeza para intentar reconocerla.
+
+---
+**Desarrollado por Diego RM - Geo Software ltd**
+
 known_image = face_recognition.load_image_file("biden.jpg")
 unknown_image = face_recognition.load_image_file("unknown.jpg")
 
@@ -65,351 +93,396 @@ unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
 results = face_recognition.compare_faces([biden_encoding], unknown_encoding)
 ```
 
-You can even use this library with other Python libraries to do real-time face recognition:
+## 🤖 Modelos Utilizados
 
-![](https://cloud.githubusercontent.com/assets/896692/24430398/36f0e3f0-13cb-11e7-8258-4d0c9ce1e419.gif)
+Este proyecto utiliza varios modelos pre-entrenados de dlib que se descargan automáticamente a través del paquete `face_recognition_models`. Los modelos incluyen:
 
-See [this example](https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_from_webcam_faster.py) for the code.
+### 1. **Detector de Caras HOG (Histogram of Oriented Gradients)**
+   - **Modelo**: `dlib.get_frontal_face_detector()`
+   - **Uso**: Detección rápida de caras en imágenes
+   - **Ventajas**: Rápido, funciona en CPU
+   - **Desventajas**: Menos preciso que CNN
 
-## Online Demos
+### 2. **Detector de Caras CNN (Convolutional Neural Network)**
+   - **Modelo**: `mmod_human_face_detector.dat`
+   - **Uso**: Detección precisa de caras usando deep learning
+   - **Ventajas**: Muy preciso, funciona mejor con diferentes ángulos
+   - **Desventajas**: Requiere GPU para mejor rendimiento
 
-User-contributed shared Jupyter notebook demo (not officially supported): [![Deepnote](https://beta.deepnote.org/buttons/try-in-a-jupyter-notebook.svg)](https://beta.deepnote.org/launch?template=face_recognition)
+### 3. **Predictor de Puntos Faciales de 68 Puntos**
+   - **Modelo**: `shape_predictor_68_face_landmarks.dat`
+   - **Uso**: Detecta 68 puntos clave en el rostro (ojos, nariz, boca, contorno)
+   - **Aplicaciones**: Análisis facial detallado, maquillaje digital, animación facial
 
-## Installation
+### 4. **Predictor de Puntos Faciales de 5 Puntos**
+   - **Modelo**: `shape_predictor_5_face_landmarks.dat`
+   - **Uso**: Detecta 5 puntos clave (ojos, nariz)
+   - **Ventajas**: Más rápido que el modelo de 68 puntos
+   - **Aplicaciones**: Alineación facial rápida
 
-### Requirements
+### 5. **Modelo de Reconocimiento Facial ResNet**
+   - **Modelo**: `dlib_face_recognition_resnet_model_v1.dat`
+   - **Arquitectura**: ResNet-34 basado en deep learning
+   - **Uso**: Genera encodings de 128 dimensiones para comparación de caras
+   - **Precisión**: 99.38% en el benchmark LFW
+   - **Aplicaciones**: Identificación y verificación de identidad
 
-  * Python 3.3+ or Python 2.7
-  * macOS or Linux (Windows not officially supported, but might work)
+### Ubicación de los Modelos
 
-### Installation Options:
+Los modelos se instalan automáticamente con `face_recognition_models` y se encuentran en:
+```
+{site-packages}/face_recognition_models/models/
+├── shape_predictor_68_face_landmarks.dat
+├── shape_predictor_5_face_landmarks.dat
+├── mmod_human_face_detector.dat
+└── dlib_face_recognition_resnet_model_v1.dat
+```
 
-#### Installing on Mac or Linux
+## 📁 Estructura del Proyecto
 
-First, make sure you have dlib already installed with Python bindings:
+```
+face_recognition-master/
+│
+├── face_recognition/              # Módulo principal
+│   ├── __init__.py               # Exporta funciones principales
+│   ├── api.py                    # API principal con lógica de reconocimiento
+│   ├── face_detection_cli.py     # CLI para detección de caras
+│   └── face_recognition_cli.py   # CLI para reconocimiento de caras
+│
+├── examples/                     # Ejemplos y aplicaciones
+│   ├── find_faces_in_picture.py           # Detección básica de caras
+│   ├── find_faces_in_picture_cnn.py      # Detección con CNN
+│   ├── recognize_faces_in_pictures.py    # Reconocimiento facial
+│   ├── find_facial_features_in_picture.py # Características faciales
+│   ├── facerec_from_webcam.py            # Reconocimiento en tiempo real
+│   ├── simple_face_recognition_app.py    # Aplicación web Flask
+│   ├── face_recognition_knn.py           # Clasificación KNN
+│   ├── face_recognition_svm.py           # Clasificación SVM
+│   ├── reference_faces/                  # Caras de referencia
+│   ├── knn_examples/                     # Ejemplos KNN
+│   │   ├── train/                        # Imágenes de entrenamiento
+│   │   └── test/                         # Imágenes de prueba
+│   └── static/                           # Archivos estáticos web
+│       ├── css/
+│       └── js/
+│
+├── tests/                        # Tests unitarios
+│   ├── test_face_recognition.py
+│   └── test_images/
+│
+├── docs/                         # Documentación
+│   ├── conf.py
+│   ├── usage.rst
+│   └── ...
+│
+├── docker/                       # Configuración Docker
+│   ├── cpu/
+│   ├── gpu/
+│   └── README.md
+│
+├── requirements.txt              # Dependencias principales
+├── requirements_dev.txt         # Dependencias de desarrollo
+├── setup.py                      # Configuración del paquete
+├── Dockerfile                    # Dockerfile principal
+└── docker-compose.yml            # Configuración Docker Compose
+```
 
-  * [How to install dlib from source on macOS or Ubuntu](https://gist.github.com/ageitgey/629d75c1baac34dfa5ca2a1928a7aeaf)
-  
-Then, make sure you have cmake installed:  
- 
-```brew install cmake```
+### Componentes Principales
 
-Finally, install this module from pypi using `pip3` (or `pip2` for Python 2):
+#### `face_recognition/api.py`
+- Contiene toda la lógica de reconocimiento facial
+- Carga y utiliza los modelos de dlib
+- Funciones principales:
+  - `load_image_file()`: Carga imágenes
+  - `face_locations()`: Detecta ubicaciones de caras
+  - `face_landmarks()`: Detecta características faciales
+  - `face_encodings()`: Genera encodings para comparación
+  - `compare_faces()`: Compara caras
+  - `face_distance()`: Calcula distancia entre caras
+
+#### `face_recognition/face_recognition_cli.py`
+- Herramienta de línea de comandos para reconocimiento
+- Uso: `face_recognition [carpeta_conocidos] [carpeta_desconocidos]`
+
+#### `face_recognition/face_detection_cli.py`
+- Herramienta de línea de comandos para detección
+- Uso: `face_detection [carpeta_imagenes]`
+
+## 🚀 Instalación
+
+### Requisitos
+
+- Python 3.3+ (Python 2.7 también soportado pero no recomendado)
+- macOS o Linux (Windows no oficialmente soportado, pero puede funcionar)
+- cmake (para compilar dlib desde fuente)
+
+### Instalación en macOS
+
+#### Opción 1: Instalación con dlib-bin (Recomendado)
 
 ```bash
+# Instalar dependencias básicas
+pip3 install --user numpy Pillow scipy Click
+
+# Instalar dlib-bin (versión precompilada, evita problemas de compilación)
+pip3 install --user dlib-bin
+
+# Instalar face_recognition_models
+pip3 install --user face_recognition_models
+
+# Instalar el proyecto
+cd face_recognition-master
+python3 setup.py install --user
+```
+
+#### Opción 2: Instalación con Homebrew
+
+```bash
+# Instalar cmake
+brew install cmake
+
+# Instalar dlib desde fuente
+pip3 install dlib
+
+# Instalar face_recognition
 pip3 install face_recognition
 ```
 
-Alternatively, you can try this library with [Docker](https://www.docker.com/), see [this section](#deployment).
-
-If you are having trouble with installation, you can also try out a
-[pre-configured VM](https://medium.com/@ageitgey/try-deep-learning-in-python-now-with-a-fully-pre-configured-vm-1d97d4c3e9b).
-
-#### Installing on an Nvidia Jetson Nano board
-
- * [Jetson Nano installation instructions](https://medium.com/@ageitgey/build-a-hardware-based-face-recognition-system-for-150-with-the-nvidia-jetson-nano-and-python-a25cb8c891fd)
-   * Please follow the instructions in the article carefully. There is current a bug in the CUDA libraries on the Jetson Nano that will cause this library to fail silently if you don't follow the instructions in the article to comment out a line in dlib and recompile it.
-
-#### Installing on Raspberry Pi 2+
-
-  * [Raspberry Pi 2+ installation instructions](https://gist.github.com/ageitgey/1ac8dbe8572f3f533df6269dab35df65)
-
-#### Installing on FreeBSD
+### Instalación en Linux (Ubuntu/Debian)
 
 ```bash
-pkg install graphics/py-face_recognition
+# Instalar dependencias del sistema
+sudo apt-get update
+sudo apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
+    python3-dev
+
+# Instalar dependencias Python
+pip3 install numpy Pillow scipy Click
+
+# Instalar dlib
+pip3 install dlib
+
+# Instalar face_recognition
+pip3 install face_recognition
 ```
 
-#### Installing on Windows
-
-While Windows isn't officially supported, helpful users have posted instructions on how to install this library:
-
-  * [@masoudr's Windows 10 installation guide (dlib + face_recognition)](https://github.com/ageitgey/face_recognition/issues/175#issue-257710508)
-
-#### Installing a pre-configured Virtual Machine image
-
-  * [Download the pre-configured VM image](https://medium.com/@ageitgey/try-deep-learning-in-python-now-with-a-fully-pre-configured-vm-1d97d4c3e9b) (for VMware Player or VirtualBox).
-
-## Usage
-
-### Command-Line Interface
-
-When you install `face_recognition`, you get two simple command-line 
-programs:
-
-* `face_recognition` - Recognize faces in a photograph or folder full for 
-   photographs.
-* `face_detection` - Find faces in a photograph or folder full for photographs.
-
-#### `face_recognition` command line tool
-
-The `face_recognition` command lets you recognize faces in a photograph or 
-folder full  for photographs.
-
-First, you need to provide a folder with one picture of each person you
-already know. There should be one image file for each person with the
-files named according to who is in the picture:
-
-![known](https://cloud.githubusercontent.com/assets/896692/23582466/8324810e-00df-11e7-82cf-41515eba704d.png)
-
-Next, you need a second folder with the files you want to identify:
-
-![unknown](https://cloud.githubusercontent.com/assets/896692/23582465/81f422f8-00df-11e7-8b0d-75364f641f58.png)
-
-Then in you simply run the command `face_recognition`, passing in
-the folder of known people and the folder (or single image) with unknown
-people and it tells you who is in each image:
+### Instalación usando Docker
 
 ```bash
-$ face_recognition ./pictures_of_people_i_know/ ./unknown_pictures/
+# Construir y ejecutar con Docker Compose
+docker-compose up --build
 
-/unknown_pictures/unknown.jpg,Barack Obama
-/face_recognition_test/unknown_pictures/unknown.jpg,unknown_person
+# O construir manualmente
+docker build -t face_recognition .
+docker run -v $(pwd)/examples:/face_recognition/examples face_recognition
 ```
 
-There's one line in the output for each face. The data is comma-separated
-with the filename and the name of the person found.
+### Verificación de Instalación
 
-An `unknown_person` is a face in the image that didn't match anyone in
-your folder of known people.
+```python
+import face_recognition
+import dlib
 
-#### `face_detection` command line tool
+print(f"face_recognition version: {face_recognition.__version__}")
+print(f"dlib version: {dlib.__version__}")
+```
 
-The `face_detection` command lets you find the location (pixel coordinatates) 
-of any faces in an image.
+## 💻 Uso
 
-Just run the command `face_detection`, passing in a folder of images 
-to check (or a single image):
+### Uso Básico en Python
+
+```python
+import face_recognition
+
+# Cargar imagen
+image = face_recognition.load_image_file("person.jpg")
+
+# Detectar caras
+face_locations = face_recognition.face_locations(image)
+print(f"Encontré {len(face_locations)} cara(s)")
+
+# Detectar características faciales
+face_landmarks = face_recognition.face_landmarks(image)
+
+# Generar encoding para reconocimiento
+face_encodings = face_recognition.face_encodings(image)
+```
+
+### Uso desde Línea de Comandos
+
+#### Detectar caras
 
 ```bash
-$ face_detection  ./folder_with_pictures/
+face_detection ./folder_with_pictures/
+```
 
+Salida:
+```
 examples/image1.jpg,65,215,169,112
 examples/image2.jpg,62,394,211,244
-examples/image2.jpg,95,941,244,792
 ```
 
-It prints one line for each face that was detected. The coordinates
-reported are the top, right, bottom and left coordinates of the face (in pixels).
- 
-##### Adjusting Tolerance / Sensitivity
-
-If you are getting multiple matches for the same person, it might be that
-the people in your photos look very similar and a lower tolerance value
-is needed to make face comparisons more strict.
-
-You can do that with the `--tolerance` parameter. The default tolerance
-value is 0.6 and lower numbers make face comparisons more strict:
+#### Reconocer caras
 
 ```bash
-$ face_recognition --tolerance 0.54 ./pictures_of_people_i_know/ ./unknown_pictures/
+face_recognition ./pictures_of_people_i_know/ ./unknown_pictures/
+```
 
+Salida:
+```
 /unknown_pictures/unknown.jpg,Barack Obama
-/face_recognition_test/unknown_pictures/unknown.jpg,unknown_person
+/unknown_pictures/unknown2.jpg,unknown_person
 ```
 
-If you want to see the face distance calculated for each match in order
-to adjust the tolerance setting, you can use `--show-distance true`:
+### Aplicación Web
+
+El proyecto incluye una aplicación web Flask completa:
 
 ```bash
-$ face_recognition --show-distance true ./pictures_of_people_i_know/ ./unknown_pictures/
-
-/unknown_pictures/unknown.jpg,Barack Obama,0.378542298956785
-/face_recognition_test/unknown_pictures/unknown.jpg,unknown_person,None
+cd examples
+python3 simple_face_recognition_app.py
 ```
 
-##### More Examples
+Luego abre tu navegador en: `http://localhost:5005`
 
-If you simply want to know the names of the people in each photograph but don't
-care about file names, you could do this:
+## 📚 Ejemplos
+
+El proyecto incluye más de 20 ejemplos en la carpeta `examples/`:
+
+### Detección de Caras
+- `find_faces_in_picture.py` - Detección básica con HOG
+- `find_faces_in_picture_cnn.py` - Detección con CNN (más precisa)
+- `find_faces_in_batches.py` - Procesamiento por lotes
+
+### Reconocimiento Facial
+- `recognize_faces_in_pictures.py` - Reconocimiento básico
+- `identify_and_draw_boxes_on_faces.py` - Dibuja cajas alrededor de caras reconocidas
+- `face_distance.py` - Calcula distancia entre caras
+
+### Características Faciales
+- `find_facial_features_in_picture.py` - Detecta puntos faciales
+- `digital_makeup.py` - Aplica maquillaje digital
+- `blink_detection.py` - Detecta parpadeos
+
+### Tiempo Real
+- `facerec_from_webcam.py` - Reconocimiento desde webcam
+- `facerec_from_webcam_faster.py` - Versión optimizada
+- `facerec_from_webcam_multiprocessing.py` - Versión multiproceso
+- `blur_faces_on_webcam.py` - Desenfoque de caras en tiempo real
+
+### Videos
+- `facerec_from_video_file.py` - Procesamiento de archivos de video
+
+### Clasificación Avanzada
+- `face_recognition_knn.py` - Clasificación K-Nearest Neighbors
+- `face_recognition_svm.py` - Clasificación Support Vector Machine
+
+### Aplicaciones Web
+- `simple_face_recognition_app.py` - Aplicación web completa con Flask
+
+### Ejecutar un Ejemplo
 
 ```bash
-$ face_recognition ./pictures_of_people_i_know/ ./unknown_pictures/ | cut -d ',' -f2
-
-Barack Obama
-unknown_person
+cd examples
+python3 find_faces_in_picture.py
+python3 recognize_faces_in_pictures.py
+python3 simple_face_recognition_app.py
 ```
 
-##### Speeding up Face Recognition
+## 📦 Dependencias
 
-Face recognition can be done in parallel if you have a computer with
-multiple CPU cores. For example, if your system has 4 CPU cores, you can
-process about 4 times as many images in the same amount of time by using
-all your CPU cores in parallel.
+### Dependencias Principales
 
-If you are using Python 3.4 or newer, pass in a `--cpus <number_of_cpu_cores_to_use>` parameter:
+| Paquete | Versión Mínima | Descripción |
+|---------|---------------|-------------|
+| `face_recognition_models` | >=0.3.0 | Modelos pre-entrenados |
+| `dlib` | >=19.7 | Biblioteca de machine learning |
+| `numpy` | - | Computación numérica |
+| `Pillow` | - | Procesamiento de imágenes |
+| `scipy` | >=0.17.0 | Computación científica |
+| `Click` | >=6.0 | Interfaz de línea de comandos |
+
+### Dependencias Opcionales
+
+| Paquete | Uso |
+|---------|-----|
+| `opencv-python` | Para ejemplos de webcam y video |
+| `flask` | Para aplicación web |
+| `scikit-learn` | Para clasificación KNN/SVM |
+
+### Verificar Dependencias Instaladas
 
 ```bash
-$ face_recognition --cpus 4 ./pictures_of_people_i_know/ ./unknown_pictures/
+pip3 list | grep -E "(face|dlib|numpy|Pillow|scipy|Click|opencv|flask)"
 ```
 
-You can also pass in `--cpus -1` to use all CPU cores in your system.
+## 🎯 Casos de Uso
 
-#### Python Module
+- **Seguridad**: Control de acceso mediante reconocimiento facial
+- **Organización de Fotos**: Clasificación automática de fotos por persona
+- **Asistencia**: Identificación de personas en eventos
+- **Investigación**: Análisis de expresiones faciales
+- **Entretenimiento**: Filtros y efectos faciales
 
-You can import the `face_recognition` module and then easily manipulate
-faces with just a couple of lines of code. It's super easy!
+## 🔧 Solución de Problemas
 
-API Docs: [https://face-recognition.readthedocs.io](https://face-recognition.readthedocs.io/en/latest/face_recognition.html).
+### Error: "No module named 'dlib'"
 
-##### Automatically find all the faces in an image
-
-```python
-import face_recognition
-
-image = face_recognition.load_image_file("my_picture.jpg")
-face_locations = face_recognition.face_locations(image)
-
-# face_locations is now an array listing the co-ordinates of each face!
+**Solución**: Instala dlib usando `dlib-bin` (precompilado):
+```bash
+pip3 install --user dlib-bin
 ```
 
-See [this example](https://github.com/ageitgey/face_recognition/blob/master/examples/find_faces_in_picture.py)
- to try it out.
+### Error: "CMake must be installed to build dlib"
 
-You can also opt-in to a somewhat more accurate deep-learning-based face detection model.
+**Solución**: Instala cmake:
+```bash
+# macOS
+brew install cmake
 
-Note: GPU acceleration (via NVidia's CUDA library) is required for good
-performance with this model. You'll also want to enable CUDA support
-when compliling `dlib`.
+# Linux
+sudo apt-get install cmake
 
-```python
-import face_recognition
-
-image = face_recognition.load_image_file("my_picture.jpg")
-face_locations = face_recognition.face_locations(image, model="cnn")
-
-# face_locations is now an array listing the co-ordinates of each face!
+# O usando pip (menos recomendado)
+pip3 install cmake
 ```
 
-See [this example](https://github.com/ageitgey/face_recognition/blob/master/examples/find_faces_in_picture_cnn.py)
- to try it out.
+### Error: "No module named 'face_recognition'"
 
-If you have a lot of images and a GPU, you can also
-[find faces in batches](https://github.com/ageitgey/face_recognition/blob/master/examples/find_faces_in_batches.py).
-
-##### Automatically locate the facial features of a person in an image
-
-```python
-import face_recognition
-
-image = face_recognition.load_image_file("my_picture.jpg")
-face_landmarks_list = face_recognition.face_landmarks(image)
-
-# face_landmarks_list is now an array with the locations of each facial feature in each face.
-# face_landmarks_list[0]['left_eye'] would be the location and outline of the first person's left eye.
+**Solución**: Instala el proyecto:
+```bash
+cd face_recognition-master
+python3 setup.py install --user
 ```
 
-See [this example](https://github.com/ageitgey/face_recognition/blob/master/examples/find_facial_features_in_picture.py)
- to try it out.
+## 📖 Documentación Adicional
 
-##### Recognize faces in images and identify who they are
+- [Documentación oficial](http://face-recognition.readthedocs.io/)
+- [Ejemplos completos](https://github.com/ageitgey/face_recognition/tree/master/examples)
+- [Guía de instalación de dlib](https://gist.github.com/ageitgey/629d75c1baac34dfa5ca2a1928a7aeaf)
 
-```python
-import face_recognition
+## 📄 Licencia
 
-picture_of_me = face_recognition.load_image_file("me.jpg")
-my_face_encoding = face_recognition.face_encodings(picture_of_me)[0]
+MIT License - Ver archivo [LICENSE](LICENSE) para más detalles.
 
-# my_face_encoding now contains a universal 'encoding' of my facial features that can be compared to any other picture of a face!
+## 🙏 Agradecimientos
 
-unknown_picture = face_recognition.load_image_file("unknown.jpg")
-unknown_face_encoding = face_recognition.face_encodings(unknown_picture)[0]
+- [Davis King](https://github.com/davisking) por crear dlib y los modelos entrenados
+- Todos los contribuidores de la comunidad open source
 
-# Now we can see the two face encodings are of the same person with `compare_faces`!
+## 🔗 Enlaces Útiles
 
-results = face_recognition.compare_faces([my_face_encoding], unknown_face_encoding)
+- [Repositorio GitHub](https://github.com/ageitgey/face_recognition)
+- [PyPI Package](https://pypi.python.org/pypi/face_recognition)
+- [Documentación](http://face-recognition.readthedocs.io/)
 
-if results[0] == True:
-    print("It's a picture of me!")
-else:
-    print("It's not a picture of me!")
-```
+---
 
-See [this example](https://github.com/ageitgey/face_recognition/blob/master/examples/recognize_faces_in_pictures.py)
- to try it out.
-
-## Python Code Examples
-
-All the examples are available [here](https://github.com/ageitgey/face_recognition/tree/master/examples).
-
-
-#### Face Detection
-
-* [Find faces in a photograph](https://github.com/ageitgey/face_recognition/blob/master/examples/find_faces_in_picture.py)
-* [Find faces in a photograph (using deep learning)](https://github.com/ageitgey/face_recognition/blob/master/examples/find_faces_in_picture_cnn.py)
-* [Find faces in batches of images w/ GPU (using deep learning)](https://github.com/ageitgey/face_recognition/blob/master/examples/find_faces_in_batches.py)
-* [Blur all the faces in a live video using your webcam (Requires OpenCV to be installed)](https://github.com/ageitgey/face_recognition/blob/master/examples/blur_faces_on_webcam.py)
-
-#### Facial Features
-
-* [Identify specific facial features in a photograph](https://github.com/ageitgey/face_recognition/blob/master/examples/find_facial_features_in_picture.py)
-* [Apply (horribly ugly) digital make-up](https://github.com/ageitgey/face_recognition/blob/master/examples/digital_makeup.py)
-
-#### Facial Recognition
-
-* [Find and recognize unknown faces in a photograph based on photographs of known people](https://github.com/ageitgey/face_recognition/blob/master/examples/recognize_faces_in_pictures.py)
-* [Identify and draw boxes around each person in a photo](https://github.com/ageitgey/face_recognition/blob/master/examples/identify_and_draw_boxes_on_faces.py)
-* [Compare faces by numeric face distance instead of only True/False matches](https://github.com/ageitgey/face_recognition/blob/master/examples/face_distance.py)
-* [Recognize faces in live video using your webcam - Simple / Slower Version (Requires OpenCV to be installed)](https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_from_webcam.py)
-* [Recognize faces in live video using your webcam - Faster Version (Requires OpenCV to be installed)](https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_from_webcam_faster.py)
-* [Recognize faces in a video file and write out new video file (Requires OpenCV to be installed)](https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_from_video_file.py)
-* [Recognize faces on a Raspberry Pi w/ camera](https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_on_raspberry_pi.py)
-* [Run a web service to recognize faces via HTTP (Requires Flask to be installed)](https://github.com/ageitgey/face_recognition/blob/master/examples/web_service_example.py)
-* [Recognize faces with a K-nearest neighbors classifier](https://github.com/ageitgey/face_recognition/blob/master/examples/face_recognition_knn.py)
-* [Train multiple images per person then recognize faces using a SVM](https://github.com/ageitgey/face_recognition/blob/master/examples/face_recognition_svm.py)
-
-## Creating a Standalone Executable
-If you want to create a standalone executable that can run without the need to install `python` or `face_recognition`, you can use [PyInstaller](https://github.com/pyinstaller/pyinstaller). However, it requires some custom configuration to work with this library. See [this issue](https://github.com/ageitgey/face_recognition/issues/357) for how to do it.
-
-## Articles and Guides that cover `face_recognition`
-
-- My article on how Face Recognition works: [Modern Face Recognition with Deep Learning](https://medium.com/@ageitgey/machine-learning-is-fun-part-4-modern-face-recognition-with-deep-learning-c3cffc121d78)
-  - Covers the algorithms and how they generally work
-- [Face recognition with OpenCV, Python, and deep learning](https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/) by Adrian Rosebrock
-  - Covers how to use face recognition in practice
-- [Raspberry Pi Face Recognition](https://www.pyimagesearch.com/2018/06/25/raspberry-pi-face-recognition/) by Adrian Rosebrock
-  - Covers how to use this on a Raspberry Pi
-- [Face clustering with Python](https://www.pyimagesearch.com/2018/07/09/face-clustering-with-python/) by Adrian Rosebrock
-  - Covers how to automatically cluster photos based on who appears in each photo using unsupervised learning
-
-## How Face Recognition Works
-
-If you want to learn how face location and recognition work instead of
-depending on a black box library, [read my article](https://medium.com/@ageitgey/machine-learning-is-fun-part-4-modern-face-recognition-with-deep-learning-c3cffc121d78).
-
-## Caveats
-
-* The face recognition model is trained on adults and does not work very well on children. It tends to mix
-  up children quite easy using the default comparison threshold of 0.6.
-* Accuracy may vary between ethnic groups. Please see [this wiki page](https://github.com/ageitgey/face_recognition/wiki/Face-Recognition-Accuracy-Problems#question-face-recognition-works-well-with-european-individuals-but-overall-accuracy-is-lower-with-asian-individuals) for more details.
-
-## <a name="deployment">Deployment to Cloud Hosts (Heroku, AWS, etc)</a>
-
-Since `face_recognition` depends on `dlib` which is written in C++, it can be tricky to deploy an app
-using it to a cloud hosting provider like Heroku or AWS.
-
-To make things easier, there's an example Dockerfile in this repo that shows how to run an app built with
-`face_recognition` in a [Docker](https://www.docker.com/) container. With that, you should be able to deploy
-to any service that supports Docker images.
-
-You can try the Docker image locally by running: `docker-compose up --build`
-
-There are also [several prebuilt Docker images.](docker/README.md)
-
-Linux users with a GPU (drivers >= 384.81) and [Nvidia-Docker](https://github.com/NVIDIA/nvidia-docker) installed can run the example on the GPU: Open the [docker-compose.yml](docker-compose.yml) file and uncomment the `dockerfile: Dockerfile.gpu` and `runtime: nvidia` lines.
-
-## Having problems?
-
-If you run into problems, please read the [Common Errors](https://github.com/ageitgey/face_recognition/wiki/Common-Errors) section of the wiki before filing a github issue.
-
-## Thanks
-
-* Many, many thanks to [Davis King](https://github.com/davisking) ([@nulhom](https://twitter.com/nulhom))
-  for creating dlib and for providing the trained facial feature detection and face encoding models
-  used in this library. For more information on the ResNet that powers the face encodings, check out
-  his [blog post](http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html).
-* Thanks to everyone who works on all the awesome Python data science libraries like numpy, scipy, scikit-image,
-  pillow, etc, etc that makes this kind of stuff so easy and fun in Python.
-* Thanks to [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
-  [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage) project template
-  for making Python project packaging way more tolerable.
+**Versión del Proyecto**: 1.4.0  
+**Última Actualización**: 2024

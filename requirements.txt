@@ -1,6 +1,21 @@
-face_recognition_models
-Click>=6.0
+# Core Face Recognition
+face_recognition
 dlib>=19.3.0
-numpy
+cmake
+
+# UI and Web Server
+Flask
 Pillow
-scipy>=0.17.0
+
+# Computer Vision & AI
+opencv-python>=4.8.0
+ultralytics>=8.0.0
+numpy>=1.24.0
+
+# Deep Learning Backend (CPU optimized for macOS)
+torch
+torchvision
+
+# Utils
+pillow-heif
+python-dotenv

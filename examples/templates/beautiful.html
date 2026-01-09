@@ -27,7 +27,7 @@
                 <div class="header-brand">
                     <div class="logo">
                         <div class="logo-icon">
-                            <i class="fas fa-brain"></i>
+                            <img src="{{ url_for('static', filename='img/globe_logo.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                         <div class="logo-text">
                             <h1>Reconocimiento Facial IA</h1>
@@ -105,48 +105,38 @@
                         <span class="tab-subtitle">Procesar imágenes estáticas</span>
                     </div>
                 </button>
+                <button class="tab-btn" data-tab="detections">
+                    <div class="tab-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="tab-text">
+                        <span class="tab-title">Detecciones</span>
+                        <span class="tab-subtitle">Gestión y capturas guardadas</span>
+                    </div>
+                </button>
+                <button class="tab-btn" data-tab="kpi">
+                    <div class="tab-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="tab-text">
+                        <span class="tab-title">Estadísticas KPI</span>
+                        <span class="tab-subtitle">Métricas y análisis</span>
+                    </div>
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <div class="tab-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="tab-text">
+                        <span class="tab-title">Configuración</span>
+                        <span class="tab-subtitle">RTSP y fuente de video</span>
+                    </div>
+                </button>
             </nav>
 
-            <!-- Live Detection Tab -->
+            <!-- Live Detection Tab - Centro de Monitoreo Multi-Cámara -->
             <div class="tab-content active" id="live-tab">
-                <div class="video-section">
-                    <div class="video-container">
-                        <div class="video-wrapper">
-                            <img id="video-stream" src="" alt="Stream de video" style="display: none;">
-                            <div id="video-placeholder" class="video-placeholder">
-                                <div class="placeholder-icon">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <h3>Inicia la detección en tiempo real</h3>
-                                <p>El sistema comparará automáticamente con las caras de referencia</p>
-                                <div class="placeholder-features">
-                                    <div class="feature">
-                                        <i class="fas fa-check"></i>
-                                        <span>Detección automática</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-check"></i>
-                                        <span>Comparación inteligente</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-check"></i>
-                                        <span>Identificación en vivo</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-controls">
-                            <button id="start-btn" class="btn btn-success btn-large">
-                                <i class="fas fa-play"></i>
-                                <span>Iniciar Detección</span>
-                            </button>
-                            <button id="stop-btn" class="btn btn-danger btn-large" disabled>
-                                <i class="fas fa-stop"></i>
-                                <span>Detener</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {% include 'monitoring_center.html' %}
             </div>
 
             <!-- Reference Management Tab -->
@@ -247,17 +237,14 @@
                             <div class="upload-icon">
                                 <i class="fas fa-user-plus"></i>
                             </div>
-                            <h4>Selecciona una imagen con una sola cara</h4>
-                            <p>La imagen debe contener únicamente la cara de la persona</p>
+                            <h4>Selecciona una o múltiples imágenes</h4>
+                            <p>Puedes seleccionar varias imágenes a la vez. Cada imagen debe contener una sola cara</p>
                         </div>
-                        <input type="file" id="reference-file-input" accept="image/*" hidden>
+                        <input type="file" id="reference-file-input" accept="image/*" multiple hidden>
                     </div>
-                    <div class="form-group">
-                        <label for="reference-name">
-                            <i class="fas fa-user"></i>
-                            Nombre de la persona
-                        </label>
-                        <input type="text" id="reference-name" placeholder="Ej: Juan Pérez" required>
+                    <div id="selected-images-container" style="display: none; margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; font-size: 1rem; font-weight: 600;">Imágenes seleccionadas:</h4>
+                        <div id="selected-images-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
                     </div>
                     <div class="form-actions">
                         <button id="save-reference-btn" class="btn btn-success btn-large" disabled>
@@ -388,10 +375,179 @@
             </div>
         </footer>
 
+        <!-- Detections Tab -->
+        <div class="tab-content" id="detections-tab">
+            <div class="detections-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-database"></i> Gestión de Detecciones</h2>
+                    <div class="filter-controls">
+                        <select id="detection-type-filter" class="filter-select">
+                            <option value="">Todos los tipos</option>
+                            <option value="unknown">Desconocidos</option>
+                            <option value="known">Conocidos</option>
+                        </select>
+                        <select id="detection-status-filter" class="filter-select">
+                            <option value="">Todos los estados</option>
+                            <option value="pending">Pendientes</option>
+                            <option value="reviewed">Revisados</option>
+                            <option value="archived">Archivados</option>
+                        </select>
+                        <button id="refresh-detections" class="btn btn-primary">
+                            <i class="fas fa-sync"></i> Actualizar
+                        </button>
+                    </div>
+                </div>
+                <div id="detections-grid" class="detections-grid">
+                    <!-- Las detecciones se cargarán aquí dinámicamente -->
+                </div>
+                <div id="detections-pagination" class="pagination"></div>
+            </div>
+        </div>
+
+        <!-- KPI Tab -->
+        <div class="tab-content" id="kpi-tab">
+            <div class="kpi-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Estadísticas KPI</h2>
+                    <button id="refresh-kpi" class="btn btn-primary">
+                        <i class="fas fa-sync"></i> Actualizar
+                    </button>
+                </div>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="kpi-total">0</h3>
+                            <p>Total Detecciones</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="fas fa-user-times"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="kpi-unknown">0</h3>
+                            <p>Desconocidos</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="kpi-known">0</h3>
+                            <p>Conocidos</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="kpi-today">0</h3>
+                            <p>Hoy</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="kpi-week">0</h3>
+                            <p>Esta Semana</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="kpi-month">0</h3>
+                            <p>Este Mes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <h3>Detecciones por Hora</h3>
+                        <canvas id="hourly-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Detecciones por Día</h3>
+                        <canvas id="daily-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings-tab">
+            <div class="settings-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> Configuración de Fuente de Video</h2>
+                </div>
+                <div class="settings-form">
+                    <!-- Selector de Cámaras Predefinidas -->
+                    <div class="form-group">
+                        <label for="predefined-camera">Cámaras Predefinidas:</label>
+                        <select id="predefined-camera" class="form-control">
+                            <option value="">-- Seleccionar cámara predefinida --</option>
+                        </select>
+                        <small>O configura manualmente una fuente personalizada abajo</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="video-source-type">Tipo de Fuente:</label>
+                        <select id="video-source-type" class="form-control">
+                            <option value="local">Cámara Local</option>
+                            <option value="rtsp">Stream RTSP</option>
+                            <option value="http">Stream HTTP</option>
+                            <option value="file">Archivo de Video</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="local-camera-group">
+                        <label for="camera-index">Índice de Cámara:</label>
+                        <input type="number" id="camera-index" class="form-control" value="0" min="0" max="10">
+                        <small>0 = Primera cámara, 1 = Segunda cámara, etc.</small>
+                    </div>
+                    <div class="form-group" id="rtsp-url-group" style="display: none;">
+                        <label for="rtsp-url">URL RTSP:</label>
+                        <input type="text" id="rtsp-url" class="form-control" 
+                               placeholder="rtsp://usuario:password@ip:puerto/stream">
+                        <small>Ejemplo: rtsp://admin:password123@192.168.1.100:554/stream1</small>
+                    </div>
+                    <div class="form-group" id="http-url-group" style="display: none;">
+                        <label for="http-url">URL HTTP:</label>
+                        <input type="text" id="http-url" class="form-control" 
+                               placeholder="http://ip:puerto/video">
+                        <small>Ejemplo: http://192.168.1.100:8080/video</small>
+                    </div>
+                    <div class="form-group" id="file-path-group" style="display: none;">
+                        <label for="video-file">Archivo de Video:</label>
+                        <input type="text" id="video-file" class="form-control" 
+                               placeholder="/ruta/al/video.mp4">
+                    </div>
+                    <div class="form-group">
+                        <button id="save-video-source" class="btn btn-success btn-large">
+                            <i class="fas fa-save"></i> Guardar Configuración
+                        </button>
+                        <button id="test-video-source" class="btn btn-info">
+                            <i class="fas fa-video"></i> Probar Conexión
+                        </button>
+                    </div>
+                    <div id="video-source-status" class="status-message"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Toast Notifications -->
         <div class="toast-container" id="toast-container"></div>
     </div>
 
     <script src="{{ url_for('static', filename='js/beautiful.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detections.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/monitoring_center.js') }}"></script>
 </body>
 </html>

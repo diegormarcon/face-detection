@@ -1,0 +1,424 @@
+<!-- Centro de Monitoreo Multi-Cámara -->
+<div class="monitoring-center">
+    <!-- Sidebar Izquierdo - Gestión de Cámaras -->
+    <aside class="cameras-sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-video"></i> Gestión de Cámaras</h3>
+            <button id="add-camera-btn" class="btn btn-success btn-sm">
+                <i class="fas fa-plus"></i> Agregar
+            </button>
+        </div>
+        
+        <div class="cameras-list" id="cameras-list">
+            <!-- Lista de cámaras se genera dinámicamente -->
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="active-cameras-count">
+                <i class="fas fa-circle" style="color: #22c55e;"></i>
+                <span id="active-cameras-count">0</span> cámaras activas
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Área Principal - Grid de Streams -->
+    <main class="streams-grid-container">
+        <div class="streams-header">
+            <div class="header-left">
+                <h2><i class="fas fa-th"></i> Centro de Monitoreo</h2>
+                <span class="status-indicator">
+                    <i class="fas fa-circle"></i> En Vivo
+                </span>
+            </div>
+            <div class="header-controls">
+                <select id="grid-layout-select" class="form-control">
+                    <option value="1">1 Cámara</option>
+                    <option value="4" selected>4 Cámaras (2x2)</option>
+                    <option value="6">6 Cámaras (2x3)</option>
+                    <option value="9">9 Cámaras (3x3)</option>
+                </select>
+                <button id="fullscreen-btn" class="btn btn-secondary">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="streams-grid" id="streams-grid" data-layout="4">
+            <!-- Grid de streams se genera dinámicamente -->
+        </div>
+    </main>
+</div>
+
+<!-- Modal: Agregar Nueva Cámara -->
+<div id="add-camera-modal" class="modal">
+    <div class="modal-content modal-medium">
+        <div class="modal-header">
+            <h3><i class="fas fa-camera-plus"></i> Agregar Nueva Cámara</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="camera-name">Nombre de la Cámara</label>
+                <input type="text" id="camera-name" class="form-control" placeholder="Ej: Entrada Principal">
+            </div>
+            <div class="form-group">
+                <label for="camera-type">Tipo de Fuente</label>
+                <select id="camera-type" class="form-control">
+                    <option value="local">Cámara Local</option>
+                    <option value="rtsp">RTSP Stream</option>
+                    <option value="http">HTTP Stream</option>
+                    <option value="file">Archivo de Video</option>
+                </select>
+            </div>
+            <div class="form-group" id="camera-source-local">
+                <label for="camera-index-modal">Índice de Cámara</label>
+                <input type="number" id="camera-index-modal" class="form-control" value="0" min="0">
+            </div>
+            <div class="form-group" id="camera-source-rtsp" style="display: none;">
+                <label for="camera-rtsp-url">URL RTSP</label>
+                <input type="text" id="camera-rtsp-url" class="form-control" placeholder="rtsp://usuario:pass@ip:puerto/stream">
+            </div>
+            <div class="form-group" id="camera-source-http" style="display: none;">
+                <label for="camera-http-url">URL HTTP</label>
+                <input type="text" id="camera-http-url" class="form-control" placeholder="http://ip:puerto/video">
+            </div>
+            <div class="form-group" id="camera-source-file" style="display: none;">
+                <label for="camera-file-path">Ruta del Archivo</label>
+                <input type="text" id="camera-file-path" class="form-control" placeholder="/ruta/al/video.mp4">
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="camera-auto-start" checked>
+                    Iniciar automáticamente
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="save-camera-btn" class="btn btn-success">
+                <i class="fas fa-save"></i> Guardar Cámara
+            </button>
+            <button class="btn btn-secondary modal-close">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Centro de Monitoreo - Layout Principal */
+.monitoring-center {
+    display: flex;
+    height: calc(100vh - 100px);
+    gap: 0;
+    overflow: hidden;
+}
+
+/* Sidebar Izquierdo */
+.cameras-sidebar {
+    width: 280px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-header .btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.cameras-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.camera-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.camera-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.camera-item.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #60a5fa;
+}
+
+.camera-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.camera-item-name {
+    font-weight: 600;
+    color: #fff;
+    font-size: 14px;
+}
+
+.camera-item-status {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #22c55e;
+    color: #fff;
+}
+
+.camera-item-status.offline {
+    background: #ef4444;
+}
+
+.camera-item-details {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+}
+
+.camera-item-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.camera-item-controls button {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sidebar-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.active-cameras-count {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 13px;
+}
+
+/* Área Principal - Grid de Streams */
+.streams-grid-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #0f172a;
+    overflow: hidden;
+}
+
+.streams-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-left h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.status-indicator i {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.header-controls select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+/* Grid de Streams */
+.streams-grid {
+    flex: 1;
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.streams-grid[data-layout="1"] {
+    grid-template-columns: 1fr;
+}
+
+.streams-grid[data-layout="4"] {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.streams-grid[data-layout="6"] {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.streams-grid[data-layout="9"] {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+/* Stream Individual */
+.stream-card {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.stream-card.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+}
+
+.stream-card.empty .empty-slot {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.stream-card.empty .empty-slot i {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.stream-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+.stream-card-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.stream-card-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.stream-card-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.stream-card-controls button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.stream-card-controls button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .monitoring-center {
+        flex-direction: column;
+    }
+    
+    .cameras-sidebar {
+        width: 100%;
+        height: 200px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .cameras-list {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    
+    .camera-item {
+        min-width: 200px;
+    }
+}
+</style>
+

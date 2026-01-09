@@ -4,7 +4,13 @@ let isCapturing = false;
 let captureStreamActive = false;
 let capturedPhotoData = null;
 let referenceFaces = [];
+let referenceFacesData = [];
 let currentAnalysis = null;
+let lastUnknownAlert = 0;
+let audioContext = null;
+let fpsCounter = 0;
+let lastFpsTime = Date.now();
+let monitorInterval = null;
 
 // Elementos del DOM
 const startBtn = document.getElementById('start-btn');
@@ -61,13 +67,47 @@ function initializeApp() {
         btn.addEventListener('click', () => switchTab(btn.dataset.tab));
     });
 
-    // Event listeners para video
-    startBtn.addEventListener('click', startStream);
-    stopBtn.addEventListener('click', stopStream);
+    // Event listeners para video (solo si existen - compatibilidad con nuevo layout)
+    if (startBtn) {
+        startBtn.addEventListener('click', startStream);
+    }
+    if (stopBtn) {
+        stopBtn.addEventListener('click', stopStream);
+    }
 
-    // Event listeners para referencias
-    addReferenceBtn.addEventListener('click', openAddReferenceModal);
-    captureReferenceBtn.addEventListener('click', openCaptureReferenceModal);
+    // Event listeners para referencias (solo si existen)
+    if (addReferenceBtn) {
+        addReferenceBtn.addEventListener('click', openAddReferenceModal);
+    }
+    if (captureReferenceBtn) {
+        captureReferenceBtn.addEventListener('click', openCaptureReferenceModal);
+    }
+    
+    // Event listener para el área de upload de referencia
+    const referenceUploadArea = document.getElementById('reference-upload-area');
+    if (referenceUploadArea) {
+        referenceUploadArea.addEventListener('click', () => referenceFileInput.click());
+        referenceUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            referenceUploadArea.classList.add('dragover');
+        });
+        referenceUploadArea.addEventListener('dragleave', () => {
+            referenceUploadArea.classList.remove('dragover');
+        });
+        referenceUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            referenceUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                // Crear un DataTransfer para asignar múltiples archivos
+                const dataTransfer = new DataTransfer();
+                Array.from(files).forEach(file => dataTransfer.items.add(file));
+                referenceFileInput.files = dataTransfer.files;
+                handleReferenceFileSelect({ target: referenceFileInput });
+            }
+        });
+    }
+    
     referenceFileInput.addEventListener('change', handleReferenceFileSelect);
     saveReferenceBtn.addEventListener('click', saveReference);
 
@@ -88,6 +128,64 @@ function initializeApp() {
 
     // Cargar referencias
     loadReferenceFaces();
+    loadPredefinedCameras();
+}
+
+// Cargar cámaras predefinidas
+async function loadPredefinedCameras() {
+    try {
+        const response = await fetch('/api/predefined_cameras');
+        const data = await response.json();
+        
+        if (data.success && data.cameras) {
+            const select = document.getElementById('predefined-camera');
+            if (select) {
+                // Limpiar opciones existentes excepto la primera
+                select.innerHTML = '<option value="">-- Seleccionar cámara predefinida --</option>';
+                
+                // Agregar cámaras predefinidas
+                data.cameras.forEach(camera => {
+                    if (camera.enabled) {
+                        const option = document.createElement('option');
+                        option.value = JSON.stringify({
+                            id: camera.id,
+                            url: camera.url,
+                            type: camera.type
+                        });
+                        option.textContent = `${camera.name} (${camera.type.toUpperCase()})`;
+                        select.appendChild(option);
+                    }
+                });
+                
+                // Event listener para cuando se selecciona una cámara predefinida
+                select.addEventListener('change', function() {
+                    if (this.value) {
+                        const camera = JSON.parse(this.value);
+                        
+                        // Configurar automáticamente los campos según el tipo
+                        const videoSourceType = document.getElementById('video-source-type');
+                        const rtspUrl = document.getElementById('rtsp-url');
+                        const cameraIndex = document.getElementById('camera-index');
+                        
+                        if (camera.type === 'rtsp') {
+                            videoSourceType.value = 'rtsp';
+                            rtspUrl.value = camera.url;
+                            // Disparar evento change para mostrar el campo correcto
+                            videoSourceType.dispatchEvent(new Event('change'));
+                        } else if (camera.type === 'local') {
+                            videoSourceType.value = 'local';
+                            cameraIndex.value = camera.url;
+                            videoSourceType.dispatchEvent(new Event('change'));
+                        }
+                        
+                        showToast(`Cámara configurada: ${camera.id}`, 'info');
+                    }
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error cargando cámaras predefinidas:', error);
+    }
 }
 
 function addAnimations() {
@@ -115,6 +213,12 @@ function switchTab(tabName) {
     document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
     document.getElementById(`${tabName}-tab`).classList.add('active');
 
+    // Cargar datos específicos del tab
+    if (tabName === 'reference') {
+        // Recargar referencias cuando se cambia al tab de referencias
+        loadReferenceFaces();
+    }
+
     // Animación de transición
     const activeContent = document.getElementById(`${tabName}-tab`);
     activeContent.style.opacity = '0';
@@ -124,6 +228,17 @@ function switchTab(tabName) {
         activeContent.style.opacity = '1';
         activeContent.style.transform = 'translateY(0)';
     }, 100);
+    
+    // Cargar datos cuando se cambia de tab
+    if (tabName === 'reference') {
+        loadReferenceFaces();
+    } else if (tabName === 'detections') {
+        loadDetections();
+    } else if (tabName === 'kpi') {
+        loadKPI();
+    } else if (tabName === 'settings') {
+        loadVideoSourceSettings();
+    }
 }
 
 // Control del stream
@@ -131,6 +246,12 @@ async function startStream() {
     try {
         showLoading(true);
         const response = await fetch('/start_stream');
+        
+        // Validar respuesta HTTP
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
 
         if (data.success) {
@@ -139,10 +260,16 @@ async function startStream() {
             videoStream.style.display = 'block';
             videoPlaceholder.style.display = 'none';
 
+            // Inicializar contexto de audio para alertas
+            initAudioContext();
+
             // Agregar evento para contar FPS
             videoStream.onload = function() {
                 incrementFPS();
             };
+            
+            // Monitorear el stream para detectar desconocidos
+            monitorVideoStream();
 
             startBtn.disabled = true;
             stopBtn.disabled = false;
@@ -165,8 +292,20 @@ async function startStream() {
 }
 
 async function stopStream() {
+    // Limpiar intervalo de monitoreo
+    if (monitorInterval) {
+        clearInterval(monitorInterval);
+        monitorInterval = null;
+    }
+    
     try {
         const response = await fetch('/stop_stream');
+        
+        // Validar respuesta HTTP
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
 
         if (data.success) {
@@ -187,6 +326,7 @@ async function stopStream() {
             showToast('⏹️ Stream detenido', 'success');
         }
     } catch (error) {
+        console.error('Error deteniendo stream:', error);
         showToast('❌ Error deteniendo stream: ' + error.message, 'error');
     }
 }
@@ -195,15 +335,25 @@ async function stopStream() {
 async function loadReferenceFaces() {
     try {
         const response = await fetch('/api/reference_faces');
+        
+        // Validar respuesta HTTP
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
 
         if (data.success) {
             referenceFaces = data.faces;
+            referenceFacesData = data.faces_data || [];
             displayReferenceFaces();
             updateStats();
+        } else {
+            console.warn('API returned success=false:', data);
         }
     } catch (error) {
         console.error('Error cargando referencias:', error);
+        // No mostrar toast aquí para evitar spam en la consola
     }
 }
 
@@ -232,9 +382,16 @@ function displayReferenceFaces() {
         faceCard.className = 'reference-card';
         faceCard.style.animationDelay = `${index * 0.1}s`;
 
+        // Buscar los datos de la imagen para esta cara
+        const faceData = referenceFacesData.find(f => f.name === face);
+        const imageUrl = faceData ? faceData.image_url : '';
+        const imageHtml = imageUrl 
+            ? `<img src="${imageUrl}" alt="${face}" class="reference-image-img">`
+            : `<i class="fas fa-user"></i>`;
+
         faceCard.innerHTML = `
             <div class="reference-image">
-                <i class="fas fa-user"></i>
+                ${imageHtml}
             </div>
             <div class="reference-name">${face}</div>
             <div class="reference-status">Referencia Activa</div>
@@ -252,9 +409,19 @@ function displayReferenceFaces() {
 
 function openAddReferenceModal() {
     addReferenceModal.classList.add('show');
-    referenceNameInput.value = '';
     referenceFileInput.value = '';
     saveReferenceBtn.disabled = true;
+    selectedFilesData = [];
+    
+    // Resetear el área de upload visualmente
+    const referenceUploadArea = document.getElementById('reference-upload-area');
+    if (referenceUploadArea) {
+        referenceUploadArea.classList.remove('dragover');
+    }
+    
+    // Ocultar contenedor de imágenes seleccionadas
+    document.getElementById('selected-images-container').style.display = 'none';
+    document.getElementById('selected-images-list').innerHTML = '';
 
     // Animación de entrada del modal
     const modal = addReferenceModal.querySelector('.modal-content');
@@ -465,7 +632,7 @@ async function saveCapturedPhoto() {
         if (data.success) {
             showToast(`✅ ${data.message}`, 'success');
             closeCaptureReferenceModal();
-            loadReferenceFaces();
+            await loadReferenceFaces();
         } else {
             showToast('❌ Error: ' + data.error, 'error');
         }
@@ -476,12 +643,89 @@ async function saveCapturedPhoto() {
     }
 }
 
-function handleReferenceFileSelect(e) {
-    const file = e.target.files[0];
-    if (file) {
-        saveReferenceBtn.disabled = false;
+let selectedFilesData = [];
 
-        // Animación de confirmación
+function handleReferenceFileSelect(e) {
+    const files = Array.from(e.target.files);
+    
+    if (files.length === 0) {
+        saveReferenceBtn.disabled = true;
+        selectedFilesData = [];
+        document.getElementById('selected-images-container').style.display = 'none';
+        return;
+    }
+    
+    // Validar que todos sean imágenes
+    const invalidFiles = files.filter(file => !file.type.startsWith('image/'));
+    if (invalidFiles.length > 0) {
+        showToast('⚠️ Algunos archivos no son imágenes válidas', 'warning');
+        e.target.value = '';
+        saveReferenceBtn.disabled = true;
+        selectedFilesData = [];
+        document.getElementById('selected-images-container').style.display = 'none';
+        return;
+    }
+    
+    // Procesar todas las imágenes seleccionadas
+    selectedFilesData = [];
+    const container = document.getElementById('selected-images-container');
+    const list = document.getElementById('selected-images-list');
+    container.style.display = 'block';
+    list.innerHTML = '';
+    
+    files.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const fileData = {
+                file: file,
+                preview: event.target.result,
+                name: '',
+                index: index
+            };
+            selectedFilesData.push(fileData);
+            
+            // Crear elemento para cada imagen
+            const imageItem = document.createElement('div');
+            imageItem.className = 'selected-image-item';
+            imageItem.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius); border: 1px solid var(--border);';
+            
+            imageItem.innerHTML = `
+                <img src="${event.target.result}" alt="Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius);">
+                <div style="flex: 1;">
+                    <input type="text" 
+                           class="image-name-input" 
+                           data-index="${index}"
+                           placeholder="Nombre de la persona (ej: Juan Pérez)" 
+                           style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.9375rem;"
+                           onchange="updateFileName(${index}, this.value)">
+                    <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">${file.name}</p>
+                </div>
+            `;
+            
+            list.appendChild(imageItem);
+            
+            // Verificar si todas las imágenes tienen nombre
+            checkAllNamesFilled();
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    showToast(`📷 ${files.length} imagen(es) seleccionada(s). Ingresa los nombres y guarda.`, 'success');
+}
+
+function updateFileName(index, name) {
+    const fileData = selectedFilesData.find(f => f.index === index);
+    if (fileData) {
+        fileData.name = name.trim();
+        checkAllNamesFilled();
+    }
+}
+
+function checkAllNamesFilled() {
+    const allFilled = selectedFilesData.length > 0 && selectedFilesData.every(f => f.name.length > 0);
+    saveReferenceBtn.disabled = !allFilled;
+    
+    if (allFilled) {
         saveReferenceBtn.style.transform = 'scale(1.05)';
         setTimeout(() => {
             saveReferenceBtn.style.transform = 'scale(1)';
@@ -490,36 +734,67 @@ function handleReferenceFileSelect(e) {
 }
 
 async function saveReference() {
-    const name = referenceNameInput.value.trim();
-    const file = referenceFileInput.files[0];
-
-    if (!name || !file) {
-        showToast('⚠️ Por favor completa todos los campos', 'warning');
+    if (selectedFilesData.length === 0) {
+        showToast('⚠️ Por favor selecciona al menos una imagen', 'warning');
         return;
     }
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('name', name);
-
+    
+    // Verificar que todos tengan nombre
+    const filesWithoutName = selectedFilesData.filter(f => !f.name || f.name.trim().length === 0);
+    if (filesWithoutName.length > 0) {
+        showToast('⚠️ Por favor ingresa el nombre para todas las imágenes', 'warning');
+        return;
+    }
+    
     try {
         showLoading(true);
-        const response = await fetch('/api/upload_reference', {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showToast(`✅ ${data.message}`, 'success');
+        let successCount = 0;
+        let errorCount = 0;
+        const errors = [];
+        
+        // Procesar cada imagen
+        for (const fileData of selectedFilesData) {
+            const formData = new FormData();
+            formData.append('file', fileData.file);
+            formData.append('name', fileData.name.trim());
+            
+            try {
+                const response = await fetch('/api/upload_reference', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    successCount++;
+                } else {
+                    errorCount++;
+                    errors.push(`${fileData.name}: ${data.error}`);
+                }
+            } catch (error) {
+                errorCount++;
+                errors.push(`${fileData.name}: Error de conexión`);
+            }
+        }
+        
+        // Mostrar resultados
+        if (successCount > 0) {
+            showToast(`✅ ${successCount} referencia(s) guardada(s) correctamente`, 'success');
+        }
+        
+        if (errorCount > 0) {
+            const errorMsg = errors.slice(0, 3).join(', ');
+            const moreErrors = errors.length > 3 ? ` y ${errors.length - 3} más` : '';
+            showToast(`⚠️ ${errorCount} error(es): ${errorMsg}${moreErrors}`, 'warning');
+        }
+        
+        if (successCount > 0) {
             closeAddReferenceModal();
-            loadReferenceFaces();
-        } else {
-            showToast('❌ Error: ' + data.error, 'error');
+            await loadReferenceFaces();
         }
     } catch (error) {
-        showToast('❌ Error de conexión: ' + error.message, 'error');
+        showToast('❌ Error procesando las imágenes: ' + error.message, 'error');
     } finally {
         showLoading(false);
     }
@@ -848,12 +1123,14 @@ captureReferenceModal.addEventListener('click', function(e) {
     }
 });
 
-// Enter para guardar referencia
-referenceNameInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        saveReference();
-    }
-});
+// Enter para guardar referencia (solo si el elemento existe)
+if (referenceNameInput) {
+    referenceNameInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            saveReference();
+        }
+    });
+}
 
 captureName.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
@@ -862,9 +1139,6 @@ captureName.addEventListener('keydown', function(e) {
 });
 
 // Funciones para el header mejorado
-let fpsCounter = 0;
-let lastFpsTime = Date.now();
-
 function updateHeaderTime() {
     const now = new Date();
     const timeString = now.toLocaleTimeString('es-ES', {
@@ -901,6 +1175,125 @@ updateHeaderTime();
 // Actualizar FPS cada segundo
 setInterval(updateFPS, 1000);
 
+// Funciones para alerta sonora
+function initAudioContext() {
+    try {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    } catch (e) {
+        console.warn('AudioContext no disponible:', e);
+    }
+}
+
+function playAlertSound() {
+    if (!audioContext) {
+        initAudioContext();
+    }
+    
+    if (!audioContext) return;
+    
+    try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Frecuencia de alerta (tono de advertencia)
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+        
+        // Repetir el sonido 2 veces
+        setTimeout(() => {
+            if (audioContext) {
+                const oscillator2 = audioContext.createOscillator();
+                const gainNode2 = audioContext.createGain();
+                
+                oscillator2.connect(gainNode2);
+                gainNode2.connect(audioContext.destination);
+                
+                oscillator2.frequency.value = 800;
+                oscillator2.type = 'sine';
+                
+                gainNode2.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator2.start(audioContext.currentTime);
+                oscillator2.stop(audioContext.currentTime + 0.5);
+            }
+        }, 300);
+    } catch (e) {
+        console.warn('Error reproduciendo sonido:', e);
+    }
+}
+
+// Monitorear el stream de video para detectar desconocidos
+function monitorVideoStream() {
+    // Limpiar intervalo anterior si existe
+    if (monitorInterval) {
+        clearInterval(monitorInterval);
+    }
+    
+    // Verificar cada 1.5 segundos si hay desconocidos
+    monitorInterval = setInterval(() => {
+        if (!isStreaming || !videoStream.src) {
+            if (monitorInterval) {
+                clearInterval(monitorInterval);
+                monitorInterval = null;
+            }
+            return;
+        }
+        
+        // Analizar el frame actual buscando el texto "Desconocido"
+        // Usamos un canvas para analizar el contenido
+        try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = videoStream.videoWidth || 640;
+            canvas.height = videoStream.videoHeight || 480;
+            
+            if (canvas.width > 0 && canvas.height > 0) {
+                ctx.drawImage(videoStream, 0, 0, canvas.width, canvas.height);
+                
+                // Buscar píxeles rojos en la parte inferior (donde está la etiqueta "Desconocido")
+                // Método simple: buscar área roja en la parte inferior del frame
+                const imageData = ctx.getImageData(0, canvas.height - 100, canvas.width, 100);
+                const data = imageData.data;
+                let redPixels = 0;
+                
+                // Contar píxeles rojos (R > 200, G < 50, B < 50)
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    if (r > 200 && g < 50 && b < 50) {
+                        redPixels++;
+                    }
+                }
+                
+                // Si hay suficientes píxeles rojos, probablemente hay un desconocido
+                if (redPixels > 500) {
+                    const timeSinceLastAlert = Date.now() - lastUnknownAlert;
+                    if (timeSinceLastAlert > 3000) { // Evitar spam de alertas (3 segundos)
+                        playAlertSound();
+                        lastUnknownAlert = Date.now();
+                        showToast('⚠️ ALERTA: Persona desconocida detectada', 'warning');
+                    }
+                }
+            }
+        } catch (e) {
+            // Ignorar errores silenciosamente
+        }
+    }, 1500);
+}
+
 // Añadir estilos CSS para animaciones
 const style = document.createElement('style');
 style.textContent = `
@@ -920,6 +1313,11 @@ style.textContent = `
             opacity: 1;
             transform: translateY(0);
         }
+    }
+    
+    @keyframes pulse-alert {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
     }
 `;
 document.head.appendChild(style);

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Cámaras RTSP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .camera-card {
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .camera-card h3 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+        .camera-stream {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .camera-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 Test de Cámaras RTSP - Diagnóstico Completo</h1>
+        
+        <div id="api-status" class="loading">
+            ⏳ Cargando cámaras predefinidas...
+        </div>
+        
+        <div id="cameras-info"></div>
+        
+        <div class="camera-grid" id="cameras-grid"></div>
+    </div>
+
+    <script>
+        // Cargar y probar cámaras
+        async function loadAndTestCameras() {
+            const apiStatus = document.getElementById('api-status');
+            const camerasInfo = document.getElementById('cameras-info');
+            const camerasGrid = document.getElementById('cameras-grid');
+            
+            try {
+                // 1. Probar API de cámaras predefinidas
+                console.log('📡 Consultando API de cámaras...');
+                const response = await fetch('/api/predefined_cameras');
+                const data = await response.json();
+                
+                if (data.success && data.cameras) {
+                    apiStatus.className = 'status success';
+                    apiStatus.innerHTML = `✅ API funcionando correctamente - ${data.cameras.length} cámaras encontradas`;
+                    
+                    // Mostrar información de las cámaras
+                    camerasInfo.innerHTML = `
+                        <h2>📋 Cámaras Predefinidas:</h2>
+                        <pre>${JSON.stringify(data.cameras, null, 2)}</pre>
+                    `;
+                    
+                    // Crear cards para cada cámara
+                    data.cameras.forEach((camera, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'camera-card';
+                        
+                        const sourceUrl = camera.type === 'local' 
+                            ? camera.url 
+                            : encodeURIComponent(camera.url);
+                        
+                        const streamUrl = `/video_feed?source=${sourceUrl}&camera_id=${camera.id}&t=${Date.now()}`;
+                        
+                        card.innerHTML = `
+                            <h3>${camera.name}</h3>
+                            <div class="camera-info">
+                                <strong>ID:</strong> ${camera.id}<br>
+                                <strong>Tipo:</strong> ${camera.type.toUpperCase()}<br>
+                                <strong>Source:</strong> ${camera.url}<br>
+                                <strong>Estado:</strong> ${camera.enabled ? '✅ Habilitada' : '❌ Deshabilitada'}
+                            </div>
+                            <img class="camera-stream" 
+                                 id="stream-${camera.id}" 
+                                 src="${streamUrl}"
+                                 onerror="handleStreamError('${camera.id}', this)"
+                                 onload="handleStreamLoad('${camera.id}', this)">
+                            <div id="status-${camera.id}" class="camera-info">
+                                ⏳ Conectando al stream...
+                            </div>
+                            <button onclick="reloadStream('${camera.id}', '${streamUrl}')">
+                                🔄 Recargar Stream
+                            </button>
+                        `;
+                        
+                        camerasGrid.appendChild(card);
+                    });
+                } else {
+                    throw new Error('API no retornó cámaras válidas');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                apiStatus.className = 'status error';
+                apiStatus.innerHTML = `❌ Error cargando cámaras: ${error.message}`;
+            }
+        }
+        
+        function handleStreamError(cameraId, img) {
+            const status = document.getElementById(`status-${cameraId}`);
+            status.innerHTML = `❌ Error: No se pudo conectar al stream<br>
+                <small>Verifica que la cámara esté accesible y las credenciales sean correctas</small>`;
+            status.style.background = '#fee';
+            status.style.color = '#c00';
+            console.error(`Stream error for camera ${cameraId}`);
+        }
+        
+        function handleStreamLoad(cameraId, img) {
+            const status = document.getElementById(`status-${cameraId}`);
+            status.innerHTML = `✅ Stream conectado exitosamente<br>
+                <small>Resolución: ${img.naturalWidth}x${img.naturalHeight}</small>`;
+            status.style.background = '#efe';
+            status.style.color = '#060';
+            console.log(`✅ Stream loaded for camera ${cameraId}`);
+        }
+        
+        function reloadStream(cameraId, baseUrl) {
+            const img = document.getElementById(`stream-${cameraId}`);
+            const status = document.getElementById(`status-${cameraId}`);
+            status.innerHTML = '⏳ Recargando stream...';
+            status.style.background = '#ffc';
+            status.style.color = '#660';
+            
+            // Agregar timestamp para forzar recarga
+            img.src = baseUrl.replace(/&t=\d+/, '') + `&t=${Date.now()}`;
+        }
+        
+        // Cargar al iniciar la página
+        window.addEventListener('DOMContentLoaded', loadAndTestCameras);
+    </script>
+</body>
+</html>

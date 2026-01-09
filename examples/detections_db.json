@@ -1,0 +1,2042 @@
+[
+  {
+    "id": "20251226_110757_642272",
+    "timestamp": "2025-12-26T11:07:57.642658",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_642272.jpg",
+    "image_filename": "unknown_20251226_110757_642272.jpg",
+    "face_location": [
+      0,
+      202,
+      68,
+      130
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_643429",
+    "timestamp": "2025-12-26T11:07:57.643721",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_643429.jpg",
+    "image_filename": "unknown_20251226_110757_643429.jpg",
+    "face_location": [
+      196,
+      498,
+      268,
+      426
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_644115",
+    "timestamp": "2025-12-26T11:07:57.644354",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_644115.jpg",
+    "image_filename": "unknown_20251226_110757_644115.jpg",
+    "face_location": [
+      636,
+      786,
+      708,
+      714
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_644731",
+    "timestamp": "2025-12-26T11:07:57.644943",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_644731.jpg",
+    "image_filename": "unknown_20251226_110757_644731.jpg",
+    "face_location": [
+      0,
+      466,
+      60,
+      394
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_645624",
+    "timestamp": "2025-12-26T11:07:57.645886",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_645624.jpg",
+    "image_filename": "unknown_20251226_110757_645624.jpg",
+    "face_location": [
+      492,
+      98,
+      564,
+      26
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_646617",
+    "timestamp": "2025-12-26T11:07:57.647644",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_646617.jpg",
+    "image_filename": "unknown_20251226_110757_646617.jpg",
+    "face_location": [
+      214,
+      592,
+      318,
+      490
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_648436",
+    "timestamp": "2025-12-26T11:07:57.648845",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_648436.jpg",
+    "image_filename": "unknown_20251226_110757_648436.jpg",
+    "face_location": [
+      636,
+      1130,
+      708,
+      1058
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_649302",
+    "timestamp": "2025-12-26T11:07:57.649721",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_649302.jpg",
+    "image_filename": "unknown_20251226_110757_649302.jpg",
+    "face_location": [
+      260,
+      270,
+      364,
+      166
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_650169",
+    "timestamp": "2025-12-26T11:07:57.650464",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_650169.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_650169.jpg",
+    "face_location": [
+      306,
+      1042,
+      410,
+      938
+    ],
+    "confidence": 0.4612731075024148,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_651384",
+    "timestamp": "2025-12-26T11:07:57.652080",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_651384.jpg",
+    "image_filename": "unknown_20251226_110757_651384.jpg",
+    "face_location": [
+      324,
+      986,
+      396,
+      914
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_653233",
+    "timestamp": "2025-12-26T11:07:57.653582",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_653233.jpg",
+    "image_filename": "unknown_20251226_110757_653233.jpg",
+    "face_location": [
+      524,
+      594,
+      596,
+      522
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_654352",
+    "timestamp": "2025-12-26T11:07:57.654596",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_654352.jpg",
+    "image_filename": "unknown_20251226_110757_654352.jpg",
+    "face_location": [
+      652,
+      106,
+      724,
+      34
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_655857",
+    "timestamp": "2025-12-26T11:07:57.656232",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_655857.jpg",
+    "image_filename": "unknown_20251226_110757_655857.jpg",
+    "face_location": [
+      116,
+      1226,
+      188,
+      1154
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_656882",
+    "timestamp": "2025-12-26T11:07:57.657152",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_656882.jpg",
+    "image_filename": "unknown_20251226_110757_656882.jpg",
+    "face_location": [
+      236,
+      1054,
+      340,
+      950
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_658046",
+    "timestamp": "2025-12-26T11:07:57.658937",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_658046.jpg",
+    "image_filename": "unknown_20251226_110757_658046.jpg",
+    "face_location": [
+      324,
+      778,
+      396,
+      706
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_663063",
+    "timestamp": "2025-12-26T11:07:57.664084",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_663063.jpg",
+    "image_filename": "unknown_20251226_110757_663063.jpg",
+    "face_location": [
+      156,
+      374,
+      260,
+      270
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_667396",
+    "timestamp": "2025-12-26T11:07:57.669151",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_667396.jpg",
+    "image_filename": "unknown_20251226_110757_667396.jpg",
+    "face_location": [
+      540,
+      746,
+      612,
+      674
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_671098",
+    "timestamp": "2025-12-26T11:07:57.671945",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_671098.jpg",
+    "image_filename": "unknown_20251226_110757_671098.jpg",
+    "face_location": [
+      156,
+      858,
+      228,
+      786
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_673582",
+    "timestamp": "2025-12-26T11:07:57.674229",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_673582.jpg",
+    "image_filename": "unknown_20251226_110757_673582.jpg",
+    "face_location": [
+      492,
+      738,
+      564,
+      666
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_675032",
+    "timestamp": "2025-12-26T11:07:57.675439",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_675032.jpg",
+    "image_filename": "unknown_20251226_110757_675032.jpg",
+    "face_location": [
+      110,
+      696,
+      214,
+      592
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_676713",
+    "timestamp": "2025-12-26T11:07:57.676993",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_676713.jpg",
+    "image_filename": "unknown_20251226_110757_676713.jpg",
+    "face_location": [
+      0,
+      1098,
+      68,
+      1026
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_678176",
+    "timestamp": "2025-12-26T11:07:57.678591",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_678176.jpg",
+    "image_filename": "unknown_20251226_110757_678176.jpg",
+    "face_location": [
+      388,
+      1298,
+      460,
+      1226
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_679831",
+    "timestamp": "2025-12-26T11:07:57.680283",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_679831.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_679831.jpg",
+    "face_location": [
+      300,
+      1306,
+      372,
+      1234
+    ],
+    "confidence": 0.40977588797073905,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_681249",
+    "timestamp": "2025-12-26T11:07:57.682709",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_681249.jpg",
+    "image_filename": "unknown_20251226_110757_681249.jpg",
+    "face_location": [
+      156,
+      778,
+      260,
+      674
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_689243",
+    "timestamp": "2025-12-26T11:07:57.690071",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_689243.jpg",
+    "image_filename": "unknown_20251226_110757_689243.jpg",
+    "face_location": [
+      508,
+      130,
+      580,
+      58
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_691046",
+    "timestamp": "2025-12-26T11:07:57.691426",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_691046.jpg",
+    "image_filename": "unknown_20251226_110757_691046.jpg",
+    "face_location": [
+      214,
+      178,
+      318,
+      74
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_692134",
+    "timestamp": "2025-12-26T11:07:57.692382",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_692134.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_692134.jpg",
+    "face_location": [
+      308,
+      930,
+      380,
+      858
+    ],
+    "confidence": 0.42401401906390124,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_693275",
+    "timestamp": "2025-12-26T11:07:57.693590",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_693275.jpg",
+    "image_filename": "unknown_20251226_110757_693275.jpg",
+    "face_location": [
+      556,
+      1114,
+      628,
+      1042
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_694631",
+    "timestamp": "2025-12-26T11:07:57.695097",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_694631.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_694631.jpg",
+    "face_location": [
+      420,
+      1210,
+      492,
+      1138
+    ],
+    "confidence": 0.43157273292437714,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_696234",
+    "timestamp": "2025-12-26T11:07:57.696735",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_696234.jpg",
+    "image_filename": "unknown_20251226_110757_696234.jpg",
+    "face_location": [
+      236,
+      212,
+      340,
+      110
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_697620",
+    "timestamp": "2025-12-26T11:07:57.697864",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_697620.jpg",
+    "image_filename": "unknown_20251226_110757_697620.jpg",
+    "face_location": [
+      220,
+      354,
+      292,
+      282
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_698974",
+    "timestamp": "2025-12-26T11:07:57.699200",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_698974.jpg",
+    "image_filename": "unknown_20251226_110757_698974.jpg",
+    "face_location": [
+      460,
+      1306,
+      532,
+      1234
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_699883",
+    "timestamp": "2025-12-26T11:07:57.700138",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_699883.jpg",
+    "image_filename": "unknown_20251226_110757_699883.jpg",
+    "face_location": [
+      156,
+      1318,
+      260,
+      1214
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_700850",
+    "timestamp": "2025-12-26T11:07:57.701661",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_700850.jpg",
+    "image_filename": "unknown_20251226_110757_700850.jpg",
+    "face_location": [
+      318,
+      720,
+      422,
+      616
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_703283",
+    "timestamp": "2025-12-26T11:07:57.703596",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_703283.jpg",
+    "image_filename": "unknown_20251226_110757_703283.jpg",
+    "face_location": [
+      88,
+      916,
+      190,
+      812
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_704733",
+    "timestamp": "2025-12-26T11:07:57.705056",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_704733.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_704733.jpg",
+    "face_location": [
+      492,
+      994,
+      564,
+      922
+    ],
+    "confidence": 0.4152134178771285,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_705899",
+    "timestamp": "2025-12-26T11:07:57.706237",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_705899.jpg",
+    "image_filename": "unknown_20251226_110757_705899.jpg",
+    "face_location": [
+      190,
+      224,
+      294,
+      120
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_707473",
+    "timestamp": "2025-12-26T11:07:57.707832",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_707473.jpg",
+    "image_filename": "unknown_20251226_110757_707473.jpg",
+    "face_location": [
+      220,
+      1306,
+      292,
+      1234
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_708985",
+    "timestamp": "2025-12-26T11:07:57.709745",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_708985.jpg",
+    "image_filename": "unknown_20251226_110757_708985.jpg",
+    "face_location": [
+      332,
+      82,
+      404,
+      10
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_712456",
+    "timestamp": "2025-12-26T11:07:57.713102",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_712456.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_712456.jpg",
+    "face_location": [
+      364,
+      514,
+      436,
+      442
+    ],
+    "confidence": 0.41453806225360235,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_714883",
+    "timestamp": "2025-12-26T11:07:57.715226",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_714883.jpg",
+    "image_filename": "unknown_20251226_110757_714883.jpg",
+    "face_location": [
+      452,
+      58,
+      524,
+      0
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_716461",
+    "timestamp": "2025-12-26T11:07:57.716973",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_716461.jpg",
+    "image_filename": "unknown_20251226_110757_716461.jpg",
+    "face_location": [
+      236,
+      984,
+      340,
+      880
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_720702",
+    "timestamp": "2025-12-26T11:07:57.721377",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_720702.jpg",
+    "image_filename": "unknown_20251226_110757_720702.jpg",
+    "face_location": [
+      564,
+      1194,
+      636,
+      1122
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_723011",
+    "timestamp": "2025-12-26T11:07:57.723411",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_723011.jpg",
+    "image_filename": "unknown_20251226_110757_723011.jpg",
+    "face_location": [
+      156,
+      1042,
+      228,
+      970
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_724541",
+    "timestamp": "2025-12-26T11:07:57.724825",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_724541.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_724541.jpg",
+    "face_location": [
+      516,
+      1018,
+      588,
+      946
+    ],
+    "confidence": 0.40728361483073405,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_726404",
+    "timestamp": "2025-12-26T11:07:57.726718",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_726404.jpg",
+    "image_filename": "unknown_20251226_110757_726404.jpg",
+    "face_location": [
+      190,
+      892,
+      294,
+      788
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_727512",
+    "timestamp": "2025-12-26T11:07:57.727700",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_727512.jpg",
+    "image_filename": "unknown_20251226_110757_727512.jpg",
+    "face_location": [
+      164,
+      962,
+      236,
+      890
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_729063",
+    "timestamp": "2025-12-26T11:07:57.729789",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_729063.jpg",
+    "image_filename": "unknown_20251226_110757_729063.jpg",
+    "face_location": [
+      532,
+      426,
+      604,
+      354
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_732367",
+    "timestamp": "2025-12-26T11:07:57.733201",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_732367.jpg",
+    "image_filename": "unknown_20251226_110757_732367.jpg",
+    "face_location": [
+      260,
+      50,
+      332,
+      0
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_736732",
+    "timestamp": "2025-12-26T11:07:57.737675",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_736732.jpg",
+    "image_filename": "unknown_20251226_110757_736732.jpg",
+    "face_location": [
+      88,
+      996,
+      190,
+      892
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_739362",
+    "timestamp": "2025-12-26T11:07:57.739800",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_739362.jpg",
+    "image_filename": "unknown_20251226_110757_739362.jpg",
+    "face_location": [
+      248,
+      132,
+      352,
+      28
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_741236",
+    "timestamp": "2025-12-26T11:07:57.741564",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_741236.jpg",
+    "image_filename": "unknown_20251226_110757_741236.jpg",
+    "face_location": [
+      214,
+      938,
+      318,
+      834
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_742576",
+    "timestamp": "2025-12-26T11:07:57.742917",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_742576.jpg",
+    "image_filename": "unknown_20251226_110757_742576.jpg",
+    "face_location": [
+      580,
+      1090,
+      652,
+      1018
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_745109",
+    "timestamp": "2025-12-26T11:07:57.745473",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_745109.jpg",
+    "image_filename": "unknown_20251226_110757_745109.jpg",
+    "face_location": [
+      98,
+      778,
+      202,
+      674
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_746486",
+    "timestamp": "2025-12-26T11:07:57.746817",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_746486.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_746486.jpg",
+    "face_location": [
+      452,
+      1202,
+      524,
+      1130
+    ],
+    "confidence": 0.43487146844684,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_747819",
+    "timestamp": "2025-12-26T11:07:57.748052",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_747819.jpg",
+    "image_filename": "unknown_20251226_110757_747819.jpg",
+    "face_location": [
+      420,
+      162,
+      492,
+      90
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_748913",
+    "timestamp": "2025-12-26T11:07:57.749160",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_748913.jpg",
+    "image_filename": "unknown_20251226_110757_748913.jpg",
+    "face_location": [
+      168,
+      420,
+      272,
+      316
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_750181",
+    "timestamp": "2025-12-26T11:07:57.750462",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_750181.jpg",
+    "image_filename": "unknown_20251226_110757_750181.jpg",
+    "face_location": [
+      180,
+      132,
+      282,
+      28
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_752172",
+    "timestamp": "2025-12-26T11:07:57.753064",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_752172.jpg",
+    "image_filename": "unknown_20251226_110757_752172.jpg",
+    "face_location": [
+      372,
+      298,
+      444,
+      226
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_754372",
+    "timestamp": "2025-12-26T11:07:57.754626",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_754372.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_754372.jpg",
+    "face_location": [
+      308,
+      874,
+      380,
+      802
+    ],
+    "confidence": 0.4412077870015929,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_755832",
+    "timestamp": "2025-12-26T11:07:57.756267",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_755832.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_755832.jpg",
+    "face_location": [
+      364,
+      788,
+      468,
+      686
+    ],
+    "confidence": 0.4069801373548705,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_757377",
+    "timestamp": "2025-12-26T11:07:57.757653",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_757377.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_757377.jpg",
+    "face_location": [
+      318,
+      500,
+      422,
+      398
+    ],
+    "confidence": 0.4135469357408865,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_758851",
+    "timestamp": "2025-12-26T11:07:57.759681",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_758851.jpg",
+    "image_filename": "unknown_20251226_110757_758851.jpg",
+    "face_location": [
+      468,
+      224,
+      570,
+      120
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_761515",
+    "timestamp": "2025-12-26T11:07:57.762356",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_761515.jpg",
+    "image_filename": "unknown_20251226_110757_761515.jpg",
+    "face_location": [
+      52,
+      1042,
+      156,
+      938
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_764361",
+    "timestamp": "2025-12-26T11:07:57.764810",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_764361.jpg",
+    "image_filename": "unknown_20251226_110757_764361.jpg",
+    "face_location": [
+      444,
+      994,
+      516,
+      922
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_766542",
+    "timestamp": "2025-12-26T11:07:57.767802",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_766542.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_766542.jpg",
+    "face_location": [
+      318,
+      916,
+      422,
+      812
+    ],
+    "confidence": 0.4439066268705595,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_770842",
+    "timestamp": "2025-12-26T11:07:57.771660",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_770842.jpg",
+    "image_filename": "unknown_20251226_110757_770842.jpg",
+    "face_location": [
+      594,
+      328,
+      698,
+      224
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_773452",
+    "timestamp": "2025-12-26T11:07:57.773959",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_773452.jpg",
+    "image_filename": "unknown_20251226_110757_773452.jpg",
+    "face_location": [
+      380,
+      1266,
+      452,
+      1194
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_776101",
+    "timestamp": "2025-12-26T11:07:57.776737",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_776101.jpg",
+    "image_filename": "unknown_20251226_110757_776101.jpg",
+    "face_location": [
+      226,
+      420,
+      328,
+      316
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_779481",
+    "timestamp": "2025-12-26T11:07:57.780008",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_779481.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_779481.jpg",
+    "face_location": [
+      536,
+      1054,
+      640,
+      950
+    ],
+    "confidence": 0.4184817212381524,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_781470",
+    "timestamp": "2025-12-26T11:07:57.781769",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_781470.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_781470.jpg",
+    "face_location": [
+      514,
+      1100,
+      616,
+      996
+    ],
+    "confidence": 0.41924775166077566,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_782972",
+    "timestamp": "2025-12-26T11:07:57.783247",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_782972.jpg",
+    "image_filename": "unknown_20251226_110757_782972.jpg",
+    "face_location": [
+      356,
+      554,
+      428,
+      482
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_784906",
+    "timestamp": "2025-12-26T11:07:57.785805",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_784906.jpg",
+    "image_filename": "unknown_20251226_110757_784906.jpg",
+    "face_location": [
+      282,
+      304,
+      386,
+      202
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_787862",
+    "timestamp": "2025-12-26T11:07:57.788288",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_787862.jpg",
+    "image_filename": "unknown_20251226_110757_787862.jpg",
+    "face_location": [
+      202,
+      454,
+      306,
+      350
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_789859",
+    "timestamp": "2025-12-26T11:07:57.790586",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_789859.jpg",
+    "image_filename": "unknown_20251226_110757_789859.jpg",
+    "face_location": [
+      172,
+      514,
+      244,
+      442
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_792161",
+    "timestamp": "2025-12-26T11:07:57.792492",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_792161.jpg",
+    "image_filename": "unknown_20251226_110757_792161.jpg",
+    "face_location": [
+      560,
+      282,
+      662,
+      178
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_793742",
+    "timestamp": "2025-12-26T11:07:57.794157",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_793742.jpg",
+    "image_filename": "unknown_20251226_110757_793742.jpg",
+    "face_location": [
+      248,
+      870,
+      352,
+      766
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_795798",
+    "timestamp": "2025-12-26T11:07:57.796375",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_795798.jpg",
+    "image_filename": "unknown_20251226_110757_795798.jpg",
+    "face_location": [
+      596,
+      210,
+      668,
+      138
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_798931",
+    "timestamp": "2025-12-26T11:07:57.799350",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_798931.jpg",
+    "image_filename": "unknown_20251226_110757_798931.jpg",
+    "face_location": [
+      294,
+      144,
+      398,
+      40
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_800757",
+    "timestamp": "2025-12-26T11:07:57.801315",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_800757.jpg",
+    "image_filename": "unknown_20251226_110757_800757.jpg",
+    "face_location": [
+      202,
+      846,
+      306,
+      742
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_803743",
+    "timestamp": "2025-12-26T11:07:57.804006",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_803743.jpg",
+    "image_filename": "unknown_20251226_110757_803743.jpg",
+    "face_location": [
+      564,
+      202,
+      636,
+      130
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_805190",
+    "timestamp": "2025-12-26T11:07:57.805499",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_805190.jpg",
+    "image_filename": "unknown_20251226_110757_805190.jpg",
+    "face_location": [
+      282,
+      454,
+      386,
+      350
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_806713",
+    "timestamp": "2025-12-26T11:07:57.806984",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_806713.jpg",
+    "image_filename": "unknown_20251226_110757_806713.jpg",
+    "face_location": [
+      468,
+      1066,
+      570,
+      962
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_808299",
+    "timestamp": "2025-12-26T11:07:57.808618",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_808299.jpg",
+    "image_filename": "unknown_20251226_110757_808299.jpg",
+    "face_location": [
+      156,
+      490,
+      260,
+      386
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_810302",
+    "timestamp": "2025-12-26T11:07:57.810663",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_810302.jpg",
+    "image_filename": "unknown_20251226_110757_810302.jpg",
+    "face_location": [
+      214,
+      1020,
+      318,
+      916
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_812385",
+    "timestamp": "2025-12-26T11:07:57.812656",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_812385.jpg",
+    "image_filename": "unknown_20251226_110757_812385.jpg",
+    "face_location": [
+      532,
+      114,
+      604,
+      42
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_814888",
+    "timestamp": "2025-12-26T11:07:57.815306",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_814888.jpg",
+    "image_filename": "unknown_20251226_110757_814888.jpg",
+    "face_location": [
+      260,
+      674,
+      364,
+      570
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_817345",
+    "timestamp": "2025-12-26T11:07:57.818004",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_817345.jpg",
+    "image_filename": "unknown_20251226_110757_817345.jpg",
+    "face_location": [
+      570,
+      858,
+      674,
+      754
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_820289",
+    "timestamp": "2025-12-26T11:07:57.820810",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_820289.jpg",
+    "image_filename": "unknown_20251226_110757_820289.jpg",
+    "face_location": [
+      524,
+      258,
+      628,
+      156
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_822744",
+    "timestamp": "2025-12-26T11:07:57.823138",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_822744.jpg",
+    "image_filename": "unknown_20251226_110757_822744.jpg",
+    "face_location": [
+      168,
+      1204,
+      272,
+      1100
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_824779",
+    "timestamp": "2025-12-26T11:07:57.825162",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_824779.jpg",
+    "image_filename": "unknown_20251226_110757_824779.jpg",
+    "face_location": [
+      190,
+      86,
+      294,
+      0
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_827055",
+    "timestamp": "2025-12-26T11:07:57.827439",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_827055.jpg",
+    "image_filename": "unknown_20251226_110757_827055.jpg",
+    "face_location": [
+      340,
+      132,
+      444,
+      28
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_829579",
+    "timestamp": "2025-12-26T11:07:57.830190",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_829579.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_829579.jpg",
+    "face_location": [
+      428,
+      1298,
+      500,
+      1226
+    ],
+    "confidence": 0.40553703820046505,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_833121",
+    "timestamp": "2025-12-26T11:07:57.833564",
+    "type": "known",
+    "image_path": "unknown_faces/known_German_Ferrari_20251226_110757_833121.jpg",
+    "image_filename": "known_German_Ferrari_20251226_110757_833121.jpg",
+    "face_location": [
+      364,
+      454,
+      468,
+      350
+    ],
+    "confidence": 0.4065876621125224,
+    "name": "German Ferrari",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_836463",
+    "timestamp": "2025-12-26T11:07:57.836919",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_836463.jpg",
+    "image_filename": "unknown_20251226_110757_836463.jpg",
+    "face_location": [
+      40,
+      950,
+      144,
+      846
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_838961",
+    "timestamp": "2025-12-26T11:07:57.839312",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_838961.jpg",
+    "image_filename": "unknown_20251226_110757_838961.jpg",
+    "face_location": [
+      570,
+      1030,
+      674,
+      926
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_841291",
+    "timestamp": "2025-12-26T11:07:57.841614",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_841291.jpg",
+    "image_filename": "unknown_20251226_110757_841291.jpg",
+    "face_location": [
+      282,
+      236,
+      386,
+      132
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_843999",
+    "timestamp": "2025-12-26T11:07:57.844363",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_843999.jpg",
+    "image_filename": "unknown_20251226_110757_843999.jpg",
+    "face_location": [
+      134,
+      570,
+      236,
+      466
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_846718",
+    "timestamp": "2025-12-26T11:07:57.847293",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_846718.jpg",
+    "image_filename": "unknown_20251226_110757_846718.jpg",
+    "face_location": [
+      110,
+      282,
+      214,
+      178
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_849139",
+    "timestamp": "2025-12-26T11:07:57.849463",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_849139.jpg",
+    "image_filename": "unknown_20251226_110757_849139.jpg",
+    "face_location": [
+      134,
+      454,
+      236,
+      350
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_852474",
+    "timestamp": "2025-12-26T11:07:57.853370",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_852474.jpg",
+    "image_filename": "unknown_20251226_110757_852474.jpg",
+    "face_location": [
+      168,
+      190,
+      272,
+      86
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_855732",
+    "timestamp": "2025-12-26T11:07:57.856341",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_855732.jpg",
+    "image_filename": "unknown_20251226_110757_855732.jpg",
+    "face_location": [
+      294,
+      408,
+      398,
+      304
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_858378",
+    "timestamp": "2025-12-26T11:07:57.858810",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_858378.jpg",
+    "image_filename": "unknown_20251226_110757_858378.jpg",
+    "face_location": [
+      524,
+      316,
+      628,
+      212
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_860741",
+    "timestamp": "2025-12-26T11:07:57.861162",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_860741.jpg",
+    "image_filename": "unknown_20251226_110757_860741.jpg",
+    "face_location": [
+      432,
+      202,
+      536,
+      98
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_864666",
+    "timestamp": "2025-12-26T11:07:57.865272",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_864666.jpg",
+    "image_filename": "unknown_20251226_110757_864666.jpg",
+    "face_location": [
+      110,
+      1204,
+      214,
+      1100
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_868119",
+    "timestamp": "2025-12-26T11:07:57.868588",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_868119.jpg",
+    "image_filename": "unknown_20251226_110757_868119.jpg",
+    "face_location": [
+      98,
+      340,
+      202,
+      236
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_870795",
+    "timestamp": "2025-12-26T11:07:57.871158",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_870795.jpg",
+    "image_filename": "unknown_20251226_110757_870795.jpg",
+    "face_location": [
+      536,
+      708,
+      640,
+      604
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_872848",
+    "timestamp": "2025-12-26T11:07:57.873222",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_872848.jpg",
+    "image_filename": "unknown_20251226_110757_872848.jpg",
+    "face_location": [
+      548,
+      536,
+      652,
+      432
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_877157",
+    "timestamp": "2025-12-26T11:07:57.878308",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_877157.jpg",
+    "image_filename": "unknown_20251226_110757_877157.jpg",
+    "face_location": [
+      364,
+      1250,
+      468,
+      1146
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_882773",
+    "timestamp": "2025-12-26T11:07:57.883790",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_882773.jpg",
+    "image_filename": "unknown_20251226_110757_882773.jpg",
+    "face_location": [
+      6,
+      362,
+      110,
+      258
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_891838",
+    "timestamp": "2025-12-26T11:07:57.892651",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_891838.jpg",
+    "image_filename": "unknown_20251226_110757_891838.jpg",
+    "face_location": [
+      226,
+      490,
+      328,
+      386
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_896778",
+    "timestamp": "2025-12-26T11:07:57.898046",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_896778.jpg",
+    "image_filename": "unknown_20251226_110757_896778.jpg",
+    "face_location": [
+      386,
+      120,
+      490,
+      16
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_900901",
+    "timestamp": "2025-12-26T11:07:57.901622",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_900901.jpg",
+    "image_filename": "unknown_20251226_110757_900901.jpg",
+    "face_location": [
+      468,
+      650,
+      570,
+      546
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_904354",
+    "timestamp": "2025-12-26T11:07:57.904773",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_904354.jpg",
+    "image_filename": "unknown_20251226_110757_904354.jpg",
+    "face_location": [
+      18,
+      720,
+      122,
+      616
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_907099",
+    "timestamp": "2025-12-26T11:07:57.907422",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_907099.jpg",
+    "image_filename": "unknown_20251226_110757_907099.jpg",
+    "face_location": [
+      548,
+      132,
+      652,
+      28
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_910326",
+    "timestamp": "2025-12-26T11:07:57.910773",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_910326.jpg",
+    "image_filename": "unknown_20251226_110757_910326.jpg",
+    "face_location": [
+      616,
+      490,
+      720,
+      386
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_913082",
+    "timestamp": "2025-12-26T11:07:57.913435",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_913082.jpg",
+    "image_filename": "unknown_20251226_110757_913082.jpg",
+    "face_location": [
+      514,
+      558,
+      616,
+      454
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_915683",
+    "timestamp": "2025-12-26T11:07:57.916264",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_915683.jpg",
+    "image_filename": "unknown_20251226_110757_915683.jpg",
+    "face_location": [
+      606,
+      662,
+      710,
+      558
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_921498",
+    "timestamp": "2025-12-26T11:07:57.922174",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_921498.jpg",
+    "image_filename": "unknown_20251226_110757_921498.jpg",
+    "face_location": [
+      432,
+      604,
+      536,
+      500
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  },
+  {
+    "id": "20251226_110757_925863",
+    "timestamp": "2025-12-26T11:07:57.927982",
+    "type": "unknown",
+    "image_path": "unknown_faces/unknown_20251226_110757_925863.jpg",
+    "image_filename": "unknown_20251226_110757_925863.jpg",
+    "face_location": [
+      364,
+      86,
+      468,
+      0
+    ],
+    "confidence": null,
+    "name": "Desconocido",
+    "notes": "",
+    "status": "pending"
+  }
+]
